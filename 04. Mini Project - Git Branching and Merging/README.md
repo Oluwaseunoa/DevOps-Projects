@@ -30,6 +30,15 @@ This is a core feature of collaborative development in DevOps workflows.
 ## 🧑‍💻 How to Create a Pull Request on GitHub
 
 Assuming Tom and Jerry have pushed their branches:
+git checkout -b update-navigation
+
+```bash
+git checkout -b update-navigation
+# made changes...
+git add .
+git commit -m "Update navigation menu"
+git push origin update-navigation
+```
 
 ### Example: Creating a PR for Tom’s Changes
 
