@@ -120,7 +120,7 @@ git push origin edit-contact
 ![🖼️ Screenshot Placeholder: Merge confirmation](./img/19.MergePREditcontact.png)
 
 8. Confirm successful merge  
-[🖼️ Screenshot Placeholder: GitHub PR shows "Merged" status](./img/20.MergedEditContact.png)
+![🖼️ Screenshot Placeholder: GitHub PR shows "Merged" status](./img/20.MergedEditContact.png)
 
 ✅ Status: edit-contact successfully merged into main
 
