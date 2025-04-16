@@ -1,6 +1,6 @@
 
 
-# Mini Project – Git Branching and Merging
+# 🛠️ Mini Project – Git Branching and Merging
 
 This project demonstrates how multiple developers (Tom and Jerry) can collaborate on a project using Git branching and merging strategies. It outlines the process of creating and reviewing Pull Requests (PRs) before merging into the main branch.
 
@@ -8,129 +8,141 @@ This project demonstrates how multiple developers (Tom and Jerry) can collaborat
 
 ## 🔀 Workflow Overview
 
-After both Tom and Jerry have pushed their changes, the next step is to:
+The project simulates collaboration between two developers, each working on their own branch:
 
-1. Create a Pull Request.
-2. Merge the Pull Request into the main branch.
+- Tom: update-navigation
+- Jerry: edit-contact (formerly add-contact-info)
+
+Both developers push their changes, create Pull Requests, and merge into the main branch.
 
 ---
 
 ## 📌 Understanding Pull Requests
 
-A **Pull Request (PR)** is a GitHub feature (also used in other Git-based systems) that allows developers to:
-- Propose changes,
-- Request reviews,
-- Discuss implementations,
-- Merge changes after approval.
+A Pull Request (PR) is a GitHub feature that enables developers to:
 
-This is a core feature of collaborative development in DevOps workflows.
+- Propose code changes,
+- Request code reviews,
+- Collaborate on improvements,
+- Merge only approved contributions into shared branches.
 
 ---
 
-## 🧑‍💻 How to Create a Pull Request on GitHub
+## 👨‍💻 Developer 1: Tom – update-navigation
 
-Assuming Tom and Jerry have pushed their branches:
-git checkout -b update-navigation
+### Step-by-Step Workflow
+
+1. Create and switch to feature branch:
 
 ```bash
 git checkout -b update-navigation
-# made changes...
+```
+![Git checkout to new branch: update-navigation](./img/1.VScodeGit1stbranch.png)
+2. Edit navigation content.
+![Editing html](./img/2.VScodeGit1stbranchhtmledit.png)
+3. Stage and commit changes:
+
+```bash
 git add .
 git commit -m "Update navigation menu"
+```
+
+4. Push the feature branch to GitHub:
+
+```bash
 git push origin update-navigation
 ```
 
-### Example: Creating a PR for Tom’s Changes
+ [🖼️ Screenshot Placeholder: Push confirmation in terminal](./img/3.VScodeGitAddcommitandpushbranch.png)
 
-1. **Navigate to the Repository**  
-   Open your browser and go to the GitHub page for the repository.
+5. Open GitHub Repository and switch to update-navigation branch  
+[🖼️ Screenshot Placeholder: GitHub branch switch](./img/4.GithubOpenpullrequest.png)
 
-2. **Switch to the Branch**  
-   Use the branch dropdown near the top-left and select `update-navigation` (Tom’s branch).  
-   
-   ![branch button](./img/1.GitHubcheckbranch.png)
+6. Create a Pull Request  
+[🖼️ Screenshot Placeholder: New Pull Request creation](./img/5.GithubCreatepullrequest.png)
+[🖼️ Screenshot Placeholder: Opened Created Pull Request creation](./img/6.OpenCreatedPR.png)
 
-3. **Create a New Pull Request**  
-   Click the `New pull request` button next to the branch dropdown.  
-   ![New Pull request](./img/2.GitHubcontributettobranch.png)
+7. Review and approve the PR  
+[🖼️ Screenshot Placeholder: Reviewer approval screen](./img/7.approvalofPR.png)
 
-   GitHub sets the base branch as `main` and the compare branch as Tom’s.
+8. Merge the PR into main  
+[🖼️ Screenshot Placeholder: Merged PR confirmation](./img/8.mergePRtomain.png)
 
-4. **Review Tom's Changes**  
-   Check the file differences between the main branch and `update-navigation`. Verify the changes.
+9. Confirm merge success  
+[🖼️ Screenshot Placeholder: GitHub PR shows "Merged" status](./img/9.PRMergetomain.png)
 
-5. **Create the Pull Request**  
-   Click `Create pull request`, enter a concise title and a detailed description explaining:
-   - What was changed
-   - Why it matters
-   - Any additional notes  
-   Click `Create pull request` again to submit. 
-
-   ![Create pull request](./img/3.GitHubcompareandpullrequest.png)
+✅ Status: update-navigation successfully merged into main
 
 ---
 
-## ✅ Reviewing and Merging Tom’s PR
+## 👨‍💻 Developer 2: Jerry – edit-contact
 
-Team members can now:
-- Review and comment,
-- Request changes if necessary,
-- Approve and merge once everything looks good.
+### Step-by-Step Workflow
 
-After approval, someone with merge rights clicks `Merge pull request` to integrate `update-navigation` into `main`.
-
----
-
-## 🧠 Updating Jerry’s Branch Before Merging
-
-To prevent merge conflicts and ensure compatibility, Jerry must update his branch (`add-contact-info`) with the latest changes from `main` (including Tom's updates).
-
-### Steps in Terminal:
+1. Create and switch to new feature branch:
 
 ```bash
-# Switch to Jerry's branch
-git checkout add-contact-info
+git checkout -b edit-contact
+```
+![Git checkout to new branch: edit-contact](./img/10.VscodeGitbranchEditContact.png)
+2. Pull the latest updates from main:
 
-# Pull the latest updates from main into Jerry's branch
+```bash
 git pull origin main
 ```
 
-> This command fetches the latest main branch (with Tom’s merged updates) and merges them into Jerry's branch.
+[🖼️ Screenshot Placeholder: Pull success with merge confirmation](./img/11.GitPullOriginMain.png)
 
----
-
-## 🚀 Finalizing Jerry’s Contribution
-
-Once up-to-date:
-
-1. **Push Updated Branch to GitHub**
+3. Confirm branch status:
 
 ```bash
-git push origin add-contact-info
+git status
+```
+![Git status check](./img/12.GitStatusCheckEditContact.png)
+
+4. Push updated branch to GitHub:
+
+```bash
+git push origin edit-contact
 ```
 
-This ensures the remote `add-contact-info` branch includes both Jerry's work and recent updates from `main`.
+![🖼️ Screenshot Placeholder: GitHub shows edit-contact pushed](./img/13.GitPushEditContact.png)
+![Check pushed edit-contact](./img/14.GitHubcheckbranch.png)
+5. Open a Pull Request on GitHub  
+[🖼️ Screenshot Placeholder: New Pull Request for edit-contact](./img/15.openPR.png)
+[🖼️ Screenshot Placeholder: New Pull Request for edit-contact](./img/16.CreatePR.png)
 
-2. **Create a Pull Request for Jerry**  
-   Follow the same steps as done for Tom.
+6. Review changes and approve  
+[🖼️ Screenshot Placeholder: Reviewer review and approval](./img/17.EditContactPR.png)
+[🖼️ Screenshot Placeholder: Reviewer review and approval](./img/18.ReviewandApprovePR.png)
 
-3. **Merge the PR into Main**  
-   After review and approval, merge Jerry’s branch into `main`.
+7. Merge the PR into main  
+[🖼️ Screenshot Placeholder: Merge confirmation](./img/19.MergePREditcontact.png)
+
+
+8. Confirm successful merge  
+[🖼️ Screenshot Placeholder: GitHub PR shows "Merged" status](./img/20.MergedEditContact.png)
+
+✅ Status: edit-contact successfully merged into main
 
 ---
 
-## 🧩 Summary
+## 📁 GitHub Repository Validation
 
-This workflow showcases how Git enables seamless collaboration between multiple developers:
-
-- Isolated development using branches.
-- Centralized review through Pull Requests.
-- Controlled integration using merge strategies.
-
-Even when working on similar parts of a codebase, this approach ensures stability, clarity, and traceability.
-
-## 🌐 GitHub Repository
-
-🔗 [View on GitHub](https://github.com/Oluwaseunoa/DevOps-Projects)
+🔗 Repository URL: [DevOps Projects GitHub Repo](https://github.com/Oluwaseunoa/DevOps-Projects)
 
 
+---
+
+## 📚 Summary
+
+This Git collaboration workflow demonstrates:
+
+- Feature isolation through branching.
+- Controlled integration with Pull Requests.
+- Conflict prevention via branch synchronization.
+- Traceable contributions through commits, screenshots, and PR history.
+
+It highlights DevOps best practices for collaborative software development using Git and GitHub.
+
+---
