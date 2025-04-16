@@ -37,9 +37,9 @@ A Pull Request (PR) is a GitHub feature that enables developers to:
 ```bash
 git checkout -b update-navigation
 ```
-![Git checkout to new branch: update-navigation](./img/1.VScodeGit1stbranch.png)
+!![Git checkout to new branch: update-navigation](./img/1.VScodeGit1stbranch.png)
 2. Edit navigation content.
-![Editing html](./img/2.VScodeGit1stbranchhtmledit.png)
+!![Editing html](./img/2.VScodeGit1stbranchhtmledit.png)
 3. Stage and commit changes:
 
 ```bash
@@ -53,23 +53,23 @@ git commit -m "Update navigation menu"
 git push origin update-navigation
 ```
 
- [🖼️ Screenshot Placeholder: Push confirmation in terminal](./img/3.VScodeGitAddcommitandpushbranch.png)
+ ![Screenshot Placeholder: Push confirmation in terminal](./img/3.VScodeGitAddcommitandpushbranch.png)
 
 5. Open GitHub Repository and switch to update-navigation branch  
-[🖼️ Screenshot Placeholder: GitHub branch switch](./img/4.GithubOpenpullrequest.png)
+![🖼️ Screenshot Placeholder: GitHub branch switch](./img/4.GithubOpenpullrequest.png)
 
 6. Create a Pull Request  
-[🖼️ Screenshot Placeholder: New Pull Request creation](./img/5.GithubCreatepullrequest.png)
-[🖼️ Screenshot Placeholder: Opened Created Pull Request creation](./img/6.OpenCreatedPR.png)
+![🖼️ Screenshot Placeholder: New Pull Request creation](./img/5.GithubCreatepullrequest.png)
+![🖼️ Screenshot Placeholder: Opened Created Pull Request creation](./img/6.OpenCreatedPR.png)
 
 7. Review and approve the PR  
-[🖼️ Screenshot Placeholder: Reviewer approval screen](./img/7.approvalofPR.png)
+![🖼️ Screenshot Placeholder: Reviewer approval screen](./img/7.approvalofPR.png)
 
 8. Merge the PR into main  
-[🖼️ Screenshot Placeholder: Merged PR confirmation](./img/8.mergePRtomain.png)
+![🖼️ Screenshot Placeholder: Merged PR confirmation](./img/8.mergePRtomain.png)
 
 9. Confirm merge success  
-[🖼️ Screenshot Placeholder: GitHub PR shows "Merged" status](./img/9.PRMergetomain.png)
+![🖼️ Screenshot Placeholder: GitHub PR shows "Merged" status](./img/9.PRMergetomain.png)
 
 ✅ Status: update-navigation successfully merged into main
 
@@ -84,21 +84,21 @@ git push origin update-navigation
 ```bash
 git checkout -b edit-contact
 ```
-![Git checkout to new branch: edit-contact](./img/10.VscodeGitbranchEditContact.png)
+!![Git checkout to new branch: edit-contact](./img/10.VscodeGitbranchEditContact.png)
 2. Pull the latest updates from main:
 
 ```bash
 git pull origin main
 ```
 
-[🖼️ Screenshot Placeholder: Pull success with merge confirmation](./img/11.GitPullOriginMain.png)
+![🖼️ Screenshot Placeholder: Pull success with merge confirmation](./img/11.GitPullOriginMain.png)
 
 3. Confirm branch status:
 
 ```bash
 git status
 ```
-![Git status check](./img/12.GitStatusCheckEditContact.png)
+!![Git status check](./img/12.GitStatusCheckEditContact.png)
 
 4. Push updated branch to GitHub:
 
@@ -106,19 +106,18 @@ git status
 git push origin edit-contact
 ```
 
-![🖼️ Screenshot Placeholder: GitHub shows edit-contact pushed](./img/13.GitPushEditContact.png)
+!![🖼️ Screenshot Placeholder: GitHub shows edit-contact pushed](./img/13.GitPushEditContact.png)
 ![Check pushed edit-contact](./img/14.GitHubcheckbranch.png)
 5. Open a Pull Request on GitHub  
-[🖼️ Screenshot Placeholder: New Pull Request for edit-contact](./img/15.openPR.png)
-[🖼️ Screenshot Placeholder: New Pull Request for edit-contact](./img/16.CreatePR.png)
+![🖼️ Screenshot Placeholder: New Pull Request for edit-contact](./img/15.openPR.png)
+![Create new PR for edit-contact](./img/16.CreatePR.png)
+
 
 6. Review changes and approve  
-[🖼️ Screenshot Placeholder: Reviewer review and approval](./img/17.EditContactPR.png)
-[🖼️ Screenshot Placeholder: Reviewer review and approval](./img/18.ReviewandApprovePR.png)
-
+![Review and approve changes](./img/17.EditContactPR.png)  
+![🖼️ Screenshot Placeholder: Reviewer review and approval](./img/18.ReviewandApprovePR.png)
 7. Merge the PR into main  
-[🖼️ Screenshot Placeholder: Merge confirmation](./img/19.MergePREditcontact.png)
-
+![🖼️ Screenshot Placeholder: Merge confirmation](./img/19.MergePREditcontact.png)
 
 8. Confirm successful merge  
 [🖼️ Screenshot Placeholder: GitHub PR shows "Merged" status](./img/20.MergedEditContact.png)
