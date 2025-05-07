@@ -62,7 +62,7 @@ du -h vars.yml
 ```bash
 mv vars.yml doc1
 ```
-![Rename to doc1](img/3.RenameYMLFiletodocl.png)
+![Rename to doc1](img/3.RenameYMLFiletodoc1.png)
 
 ### 🔹 **Step 6: Create 2 backup copies of doc1 (doc2 and doc3)**
 
