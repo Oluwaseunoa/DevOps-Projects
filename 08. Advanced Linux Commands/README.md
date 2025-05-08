@@ -208,4 +208,4 @@ Explain a few entries and what their permissions imply.
 
 ## 📁 GitHub Repository Validation
 
-🔗 Repository URL: [DevOps Projects GitHub Repo](https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/00.Personal%20Projects/Advanced%20File%20Operation)
+🔗 Repository URL: [DevOps Projects GitHub Repo](https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/08.%20Advanced%20Linux%20Commands)
