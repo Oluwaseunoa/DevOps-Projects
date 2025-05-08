@@ -10,6 +10,7 @@ To demonstrate a practical understanding of Linux file permissions and user acce
 ### 📁 **1. Understanding File Permissions in Linux**
 
 Linux uses **symbolic** and **numeric** methods to represent file permissions.
+![User, Group, and Other](./img/1.rwxUGO.png)
 
 #### 📌 Key Concepts
 
@@ -41,9 +42,7 @@ Linux uses **symbolic** and **numeric** methods to represent file permissions.
 touch script.sh
 ls -latr script.sh
 ```
-
-📸 **Attach Screenshot** of the terminal output showing the default permissions of `script.sh`.
-
+![touch script.sh](./img/2.touchscript-sh.png)
 ---
 
 #### 🔧 Step 2: Add Execute Permission to All Users
@@ -52,8 +51,7 @@ ls -latr script.sh
 chmod +x script.sh
 ls -latr script.sh
 ```
-
-📸 **Attach Screenshot** after running `chmod +x script.sh` to verify new permissions (`rwxr-xr-x`).
+![Make a file an executable](./img/3.chmod+x.png)
 
 ---
 
@@ -63,9 +61,7 @@ ls -latr script.sh
 chmod 755 script.sh
 ls -latr script.sh
 ```
-
-📸 **Attach Screenshot** showing updated permissions using numeric representation.
-
+![Set file permission](./img/4.chmod755.png)
 ---
 
 #### 🔧 Step 4: Give Full Permissions to All Users (777)
@@ -74,8 +70,7 @@ ls -latr script.sh
 chmod 777 note.txt
 ls -latr note.txt
 ```
-
-📸 **Attach Screenshot** of `note.txt` with `-rwxrwxrwx` permission.
+![Grant full permission](./img/5.touchnote-txt.png)
 
 ---
 
@@ -83,21 +78,38 @@ ls -latr note.txt
 
 #### 🔧 Step 5: Create a File and Change Ownership
 
+
+Let's create group `developer` to use :
+
+```bash
+sudo groupadd developer
+cat /etc/group
+```
+![Creating group](./img/6.adddevelopergroup.png)
+![Verifying group](./img/7.developergroup.png)
+
+Let's create user `John` with `useradd` and assign him to `developer` group:
+
+```bash
+sudo useradd -c John -g developer john
+cat /etc/passwd
+```
+![Creating user with useradd](./img/8.adduserjohn.png)
+![Verifying user created](./img/9.etc-passwduser.png)
+
 Create a test file:
 
 ```bash
 touch filename.txt
 ```
+![Creating test file](./img/10.touchfilename-txt.png)
 
-Assuming `john` is an existing user and `developer` is a group:
-
+Assign the file to John
 ```bash
 sudo chown john:developer filename.txt
 ls -latr filename.txt
 ```
-
-📸 **Attach Screenshot** showing change of ownership from `dare` to `john:developer`.
-
+![Assign file to John](./img/11.chownfilename-txt.png)
 ---
 
 ### 🔐 **4. Using `sudo` and Switching to Root**
@@ -107,15 +119,14 @@ ls -latr filename.txt
 ```bash
 sudo -i
 ```
-
-📸 **Attach Screenshot** showing the root shell prompt (e.g., `root@yourhostname:~#`).
+![Switching to root user temporarily](./img/12.switchtosuperuser.png)
 
 Exit root shell:
 
 ```bash
 exit
 ```
-
+![Exit root user mode](./img/13.exitsuperuser.png)
 ---
 
 ### 👨‍💻 **5. User and Group Management in Linux**
@@ -123,7 +134,7 @@ exit
 #### 🔧 Step 7: Create a New User
 
 ```bash
-sudo adduser johndoe
+sudo adduser testuser1
 ```
 
 Follow the prompts to enter:
@@ -132,33 +143,33 @@ Follow the prompts to enter:
 * Full name
 * Room number
 * Phone numbers
-
-📸 **Attach Screenshot** showing the terminal during the creation of `johndoe`.
+![Adduser](./img/14.addtestuser1.png)
+_Note: In this step we use adduser, not useradd_
 
 ---
 
 #### 🔧 Step 8: Verify the Home Directory Creation
 
 ```bash
-ls -ld /home/johndoe
+ls -ld /home/testuser1
 ```
-
-📸 **Attach Screenshot** showing `/home/johndoe` directory details.
+![Verify test user directory](./img/15.viewtestuser1directory.png)
 
 ---
 
 #### 🔧 Step 9: Grant Sudo Privileges
 
 ```bash
-sudo usermod -aG sudo johndoe
+sudo usermod -aG sudo testuser1
 ```
+![Grant sudo privilege to user](./img/16.MakeTestUserAdmin.png)
 
-📸 **Attach Screenshot** showing successful execution of the command. You may also verify it by checking:
+checking:
 
 ```bash
-groups johndoe
+groups testuser1
 ```
-
+![Checking for the sudo privilege](./img/17.verifytestuser1privilege.png)
 ---
 
 ### 📚 **6. Bonus: File Type Recognition**
@@ -169,11 +180,11 @@ When listing files with `ls -latr`, note the first character in the output:
 * `d` for directory
 * `l` for symbolic link
 
-📸 **Attach Screenshot** of a directory listing using:
 
 ```bash
 ls -latr
 ```
+![First character explained](./img/18.lslatrexplained.png)
 
 Explain a few entries and what their permissions imply.
 
@@ -195,3 +206,6 @@ Explain a few entries and what their permissions imply.
 | 10   | `ls -latr` explanation                    | ✅                    |
 
 
+## 📁 GitHub Repository Validation
+
+🔗 Repository URL: [DevOps Projects GitHub Repo](https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/00.Personal%20Projects/Advanced%20File%20Operation)
