@@ -65,7 +65,7 @@ sudo useradd user3
 **Screenshot:**
 ![Confirm Folder](img/4.confirm_folder_creation.png)
 
-Confirmed that the program file  `/home/jiro/shell_scripting` was created successfully.
+Confirmed that the program file  `/home/jiro/shell_scripting/my_first_shell_script.sh` was created successfully.
 ```bash
 ls -latr /home/jiro/shell_scripting
 ```
@@ -74,7 +74,7 @@ ls -latr /home/jiro/shell_scripting
 ## ⚠️ 5. Initial Execution Denied
 
 **Screenshot:**
-![Execution Denied](img/5.execute_permmision_denied.png)
+![Execution Denied](img/5.execute_permission_denied.png)
 
 Tried to execute the script without permissions.
 
@@ -191,7 +191,7 @@ echo $name
 Expected terminal output:
 
 ```
-My name is john
+john
 ```
 
 ---
@@ -204,9 +204,14 @@ My name is john
 Demonstrated inline script execution directly on terminal:
 
 ```bash
-name="john"; echo "My name is $name"
+name="john"
+echo "My name is $name"
 ```
+Expected terminal output:
 
+```
+My name is john
+```
 ---
 
 ## 🧾 Summary of Key Concepts Covered
@@ -223,4 +228,4 @@ name="john"; echo "My name is $name"
 ```
 ## 📁 GitHub Repository Validation
 
-🔗 Repository URL: [DevOps Projects GitHub Repo](https://github.com/Oluwaseunoa/DevOps-Projects)
+🔗 Repository URL: [DevOps Projects GitHub Repo](https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/09.%20Linux%20Shell%20Scripting)
