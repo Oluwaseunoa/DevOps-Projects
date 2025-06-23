@@ -100,6 +100,39 @@ This method is commonly used when explaining large parts of your script.
 ✔️ **Don’t Overdo It**: No need to comment every line. Let the code speak when it’s clear.
 
 ---
+ ### Full Bash Script with Proper Commenting
+```bash
+#!/bin/bash
+# This is a simple Bash script to demonstrate comments
+# Script Author: Oluwaseun Osunsola
+# Date: 06/20/2023
+# Purpose: To show how to use single-line, end-of-line, and multi-line comments in a real Bash script.
+
+# Welcome the user
+echo "Welcome to my Bash scripting project on DAREY.IO!"  # This prints the welcome message
+
+# Create a new directory
+mkdir my_project_folder  # Creates a directory named 'my_project_folder'
+
+# List the contents of the current directory
+ls -la  # Lists all files and folders, including hidden ones, in long format
+
+# Multi-line comment explaining next steps
+# The following steps will complete the script:
+# 1. Print a success message.
+# 2. Show the contents of the newly created folder.
+# 3. Print a goodbye message.
+
+# Print success message
+echo "Directory created successfully!"
+
+# Show the contents of the new directory
+ls -la my_project_folder  # It should be empty since we just created it
+
+# Print goodbye message
+echo "Goodbye! Script execution completed."  # This signals the end of the script
+```
+
 
 ## 🔎 Bash vs Shell
 
