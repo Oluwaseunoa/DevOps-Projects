@@ -413,4 +413,4 @@ This project covers:
 
 ## 📁 GitHub Repository Validation
 
-🔗 Repository URL: [DevOps Projects GitHub Repo](https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/09.%20Linux%20Shell%20Scripting)
+🔗 Repository URL: [DevOps Projects GitHub Repo](https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/11.%20Control%20Flow)
