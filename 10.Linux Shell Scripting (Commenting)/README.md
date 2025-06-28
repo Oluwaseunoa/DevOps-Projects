@@ -152,3 +152,7 @@ People often use *Bash* and *Shell* to mean the same thing. Technically, Bash (B
 ---
 
 ✅ With these basics, you’re ready for real-world Bash scripting. Keep practicing and commenting your scripts properly — it will save you and your team time in the future.
+
+## 📁 GitHub Repository Validation
+
+🔗 Repository URL: [DevOps Projects GitHub Repo](https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/09.%20Linux%20Shell%20Scripting)
