@@ -119,7 +119,7 @@ check_num_of_args
 ---
 
 ## **Create and call activate infrastructure environment function**
-![Create and call activate infr](./img/4.create_activate_infra_environment_function.png)
+![Create and call activate infrastructure environment function](./img/4.create_and_call_activate_infa_environment_function.png)
 
 ### ✅ Function: `activate_infra_environment()`
 
@@ -224,7 +224,6 @@ check_aws_profile() {
 
 ```
 Running script for Testing Environment...
-AWS CLI is installed.
 AWS profile environment variable is not set.
 ```
 
@@ -235,7 +234,7 @@ AWS profile environment variable is not set.
 
 ---
 
-## 🖼️ **Screenshot 9: `9.run_without_profile_site`**
+## **Run AWS CLI Without Setting Profile**
 
 ### 🧪 Run AWS CLI Without Setting Profile
 
