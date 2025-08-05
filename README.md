@@ -108,16 +108,4 @@ Summarize:
 - [VIM Documentation](https://www.vim.org/docs.php)  
 - [GNU Nano Manual](https://www.nano-editor.org/dist/latest/nano.html)
 
----
 
-### 📎 Bonus Tips to Get 100%
-
-✅ **Include screenshots** of all your terminal activity  
-✅ **Clearly label** each screenshot (e.g., *Figure 1: VIM file creation*)  
-✅ Submit as a **PDF or DOCX**  
-✅ Use neat formatting and correct spelling/grammar  
-✅ Optional: Include a **short video (1-2 minutes)** of you doing it live
-
----
-
-Would you like me to generate a **ready-to-edit Word document template** with placeholders for your screenshots so you can just fill it in and submit?

@@ -164,4 +164,7 @@ This project not only reinforces foundational Bash skills but also encourages th
 
 In summary, this script serves as a practical example of how **shell scripting can automate and simplify tasks**, making it a valuable skill for system administrators, DevOps engineers, and Linux users in general.
 
+ GitHub Repository
+🔗[View on GitHub](https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/002.%20Capstone%20Project%20-%20Linux%20Shell%20Scriptinghttps://github.com/Oluwaseunoa/DevOps-Projects/tree/main/002.%20Capstone%20Project%20-%20Linux%20Shell%20Scripting)
+
 
