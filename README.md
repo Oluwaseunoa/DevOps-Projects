@@ -1,11 +1,11 @@
 <!-- Profile Section -->
 <p align="center">
-  <img src="./my passport.jpeg" alt="Oluwaseun Osunsola" width="200" style="border-radius: 50%;">
+  <img src="./my passport.png" alt="Oluwaseun Osunsola" width="200" style="border-radius: 50%;">
 </p>
 
 # Oluwaseun Osunsola  
 📧 **Email:** oluwaseun.beicks@gmail.com  
-🌍 **Location:** Lagos, Nigeria
+🌍 **Location:** Lagos, Nigeria  
 💼 **Role:** DevOps & Cybersecurity Practitioner  
 🔗 **LinkedIn:** https://www.linkedin.com/in/oluwaseun-osunsola-95539b175/  
 🐙 **GitHub:** https://github.com/oluwaseunoa
