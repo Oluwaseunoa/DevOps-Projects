@@ -1,4 +1,4 @@
-# MarketPeak_Ecommerce Project Report
+# E-Commerce Platform Deployment with Git, Linux, and AWS
 
 **Author:** Oluwaseun Osunsola  
 **Environment:** Kali Linux (CLI-based)  
