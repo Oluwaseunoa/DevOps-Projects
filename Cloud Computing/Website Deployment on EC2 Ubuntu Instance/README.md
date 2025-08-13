@@ -2,11 +2,11 @@
 
 **Author:** Oluwaseun Osunsola  
 **Environment:** Kali Linux (CLI-based)  
-**Project link:** [https://](https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/Cloud%20Computing/Website%20Deployment%20on%20EC2%20Ubuntu%20Instance)
+**Project link:** https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/Cloud%20Computing/Website%20Deployment%20on%20EC2%20Ubuntu%20Instance
 ---
 
 ## **Project Introduction**
-
+t
 This capstone project focuses on building and deploying an **e-commerce platform** named **MarketPeak**. The platform will provide core online shopping functionalities such as product listings, a shopping cart, and user authentication. The project demonstrates end-to-end web development and deployment practices, starting from selecting and customizing a suitable HTML/CSS template to hosting the website on an AWS EC2 instance.
 
 The entire development process is tracked with **Git** for version control, ensuring proper management of changes, collaboration, and rollback capabilities. The implementation takes place in a **Linux environment**, reinforcing industry-standard deployment workflows. Finally, the live platform is made accessible via an **Apache web server** running on a cloud-based infrastructure.
