@@ -1,0 +1,874 @@
+<!DOCTYPE html>
+<html>
+<head>
+<title>README.md</title>
+<meta http-equiv="Content-type" content="text/html;charset=UTF-8">
+
+<style>
+/* https://github.com/microsoft/vscode/blob/master/extensions/markdown-language-features/media/markdown.css */
+/*---------------------------------------------------------------------------------------------
+ *  Copyright (c) Microsoft Corporation. All rights reserved.
+ *  Licensed under the MIT License. See License.txt in the project root for license information.
+ *--------------------------------------------------------------------------------------------*/
+
+body {
+	font-family: var(--vscode-markdown-font-family, -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif);
+	font-size: var(--vscode-markdown-font-size, 14px);
+	padding: 0 26px;
+	line-height: var(--vscode-markdown-line-height, 22px);
+	word-wrap: break-word;
+}
+
+#code-csp-warning {
+	position: fixed;
+	top: 0;
+	right: 0;
+	color: white;
+	margin: 16px;
+	text-align: center;
+	font-size: 12px;
+	font-family: sans-serif;
+	background-color:#444444;
+	cursor: pointer;
+	padding: 6px;
+	box-shadow: 1px 1px 1px rgba(0,0,0,.25);
+}
+
+#code-csp-warning:hover {
+	text-decoration: none;
+	background-color:#007acc;
+	box-shadow: 2px 2px 2px rgba(0,0,0,.25);
+}
+
+body.scrollBeyondLastLine {
+	margin-bottom: calc(100vh - 22px);
+}
+
+body.showEditorSelection .code-line {
+	position: relative;
+}
+
+body.showEditorSelection .code-active-line:before,
+body.showEditorSelection .code-line:hover:before {
+	content: "";
+	display: block;
+	position: absolute;
+	top: 0;
+	left: -12px;
+	height: 100%;
+}
+
+body.showEditorSelection li.code-active-line:before,
+body.showEditorSelection li.code-line:hover:before {
+	left: -30px;
+}
+
+.vscode-light.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.15);
+}
+
+.vscode-light.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(0, 0, 0, 0.40);
+}
+
+.vscode-light.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-dark.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.4);
+}
+
+.vscode-dark.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 255, 255, 0.60);
+}
+
+.vscode-dark.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+.vscode-high-contrast.showEditorSelection .code-active-line:before {
+	border-left: 3px solid rgba(255, 160, 0, 0.7);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line:hover:before {
+	border-left: 3px solid rgba(255, 160, 0, 1);
+}
+
+.vscode-high-contrast.showEditorSelection .code-line .code-line:hover:before {
+	border-left: none;
+}
+
+img {
+	max-width: 100%;
+	max-height: 100%;
+}
+
+a {
+	text-decoration: none;
+}
+
+a:hover {
+	text-decoration: underline;
+}
+
+a:focus,
+input:focus,
+select:focus,
+textarea:focus {
+	outline: 1px solid -webkit-focus-ring-color;
+	outline-offset: -1px;
+}
+
+hr {
+	border: 0;
+	height: 2px;
+	border-bottom: 2px solid;
+}
+
+h1 {
+	padding-bottom: 0.3em;
+	line-height: 1.2;
+	border-bottom-width: 1px;
+	border-bottom-style: solid;
+}
+
+h1, h2, h3 {
+	font-weight: normal;
+}
+
+table {
+	border-collapse: collapse;
+}
+
+table > thead > tr > th {
+	text-align: left;
+	border-bottom: 1px solid;
+}
+
+table > thead > tr > th,
+table > thead > tr > td,
+table > tbody > tr > th,
+table > tbody > tr > td {
+	padding: 5px 10px;
+}
+
+table > tbody > tr + tr > td {
+	border-top: 1px solid;
+}
+
+blockquote {
+	margin: 0 7px 0 5px;
+	padding: 0 16px 0 10px;
+	border-left-width: 5px;
+	border-left-style: solid;
+}
+
+code {
+	font-family: Menlo, Monaco, Consolas, "Droid Sans Mono", "Courier New", monospace, "Droid Sans Fallback";
+	font-size: 1em;
+	line-height: 1.357em;
+}
+
+body.wordWrap pre {
+	white-space: pre-wrap;
+}
+
+pre:not(.hljs),
+pre.hljs code > div {
+	padding: 16px;
+	border-radius: 3px;
+	overflow: auto;
+}
+
+pre code {
+	color: var(--vscode-editor-foreground);
+	tab-size: 4;
+}
+
+/** Theming */
+
+.vscode-light pre {
+	background-color: rgba(220, 220, 220, 0.4);
+}
+
+.vscode-dark pre {
+	background-color: rgba(10, 10, 10, 0.4);
+}
+
+.vscode-high-contrast pre {
+	background-color: rgb(0, 0, 0);
+}
+
+.vscode-high-contrast h1 {
+	border-color: rgb(0, 0, 0);
+}
+
+.vscode-light table > thead > tr > th {
+	border-color: rgba(0, 0, 0, 0.69);
+}
+
+.vscode-dark table > thead > tr > th {
+	border-color: rgba(255, 255, 255, 0.69);
+}
+
+.vscode-light h1,
+.vscode-light hr,
+.vscode-light table > tbody > tr + tr > td {
+	border-color: rgba(0, 0, 0, 0.18);
+}
+
+.vscode-dark h1,
+.vscode-dark hr,
+.vscode-dark table > tbody > tr + tr > td {
+	border-color: rgba(255, 255, 255, 0.18);
+}
+
+</style>
+
+<style>
+/* Tomorrow Theme */
+/* http://jmblog.github.com/color-themes-for-google-code-highlightjs */
+/* Original theme - https://github.com/chriskempson/tomorrow-theme */
+
+/* Tomorrow Comment */
+.hljs-comment,
+.hljs-quote {
+	color: #8e908c;
+}
+
+/* Tomorrow Red */
+.hljs-variable,
+.hljs-template-variable,
+.hljs-tag,
+.hljs-name,
+.hljs-selector-id,
+.hljs-selector-class,
+.hljs-regexp,
+.hljs-deletion {
+	color: #c82829;
+}
+
+/* Tomorrow Orange */
+.hljs-number,
+.hljs-built_in,
+.hljs-builtin-name,
+.hljs-literal,
+.hljs-type,
+.hljs-params,
+.hljs-meta,
+.hljs-link {
+	color: #f5871f;
+}
+
+/* Tomorrow Yellow */
+.hljs-attribute {
+	color: #eab700;
+}
+
+/* Tomorrow Green */
+.hljs-string,
+.hljs-symbol,
+.hljs-bullet,
+.hljs-addition {
+	color: #718c00;
+}
+
+/* Tomorrow Blue */
+.hljs-title,
+.hljs-section {
+	color: #4271ae;
+}
+
+/* Tomorrow Purple */
+.hljs-keyword,
+.hljs-selector-tag {
+	color: #8959a8;
+}
+
+.hljs {
+	display: block;
+	overflow-x: auto;
+	color: #4d4d4c;
+	padding: 0.5em;
+}
+
+.hljs-emphasis {
+	font-style: italic;
+}
+
+.hljs-strong {
+	font-weight: bold;
+}
+</style>
+
+<style>
+/*
+ * Markdown PDF CSS
+ */
+
+ body {
+	font-family: -apple-system, BlinkMacSystemFont, "Segoe WPC", "Segoe UI", "Ubuntu", "Droid Sans", sans-serif, "Meiryo";
+	padding: 0 12px;
+}
+
+pre {
+	background-color: #f8f8f8;
+	border: 1px solid #cccccc;
+	border-radius: 3px;
+	overflow-x: auto;
+	white-space: pre-wrap;
+	overflow-wrap: break-word;
+}
+
+pre:not(.hljs) {
+	padding: 23px;
+	line-height: 19px;
+}
+
+blockquote {
+	background: rgba(127, 127, 127, 0.1);
+	border-color: rgba(0, 122, 204, 0.5);
+}
+
+.emoji {
+	height: 1.4em;
+}
+
+code {
+	font-size: 14px;
+	line-height: 19px;
+}
+
+/* for inline code */
+:not(pre):not(.hljs) > code {
+	color: #C9AE75; /* Change the old color so it seems less like an error */
+	font-size: inherit;
+}
+
+/* Page Break : use <div class="page"/> to insert page break
+-------------------------------------------------------- */
+.page {
+	page-break-after: always;
+}
+
+</style>
+
+<script src="https://unpkg.com/mermaid/dist/mermaid.min.js"></script>
+</head>
+<body>
+  <script>
+    mermaid.initialize({
+      startOnLoad: true,
+      theme: document.body.classList.contains('vscode-dark') || document.body.classList.contains('vscode-high-contrast')
+          ? 'dark'
+          : 'default'
+    });
+  </script>
+<h1 id="marketpeakecommerce-project-report">MarketPeak_Ecommerce Project Report</h1>
+<h2 id="author-oluwaseun-osunsolaenvironment-kali-linux-cli-basedproject-link-https"><strong>Author:</strong> Oluwaseun Osunsola<br>
+<strong>Environment:</strong> Kali Linux (CLI-based)<br>
+<strong>Project link:</strong> <a href="https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/Cloud%20Computing/Website%20Deployment%20on%20EC2%20Ubuntu%20Instance">https://</a></h2>
+<h2 id="project-introduction"><strong>Project Introduction</strong></h2>
+<p>This capstone project focuses on building and deploying an <strong>e-commerce platform</strong> named <strong>MarketPeak</strong>. The platform will provide core online shopping functionalities such as product listings, a shopping cart, and user authentication. The project demonstrates end-to-end web development and deployment practices, starting from selecting and customizing a suitable HTML/CSS template to hosting the website on an AWS EC2 instance.</p>
+<p>The entire development process is tracked with <strong>Git</strong> for version control, ensuring proper management of changes, collaboration, and rollback capabilities. The implementation takes place in a <strong>Linux environment</strong>, reinforcing industry-standard deployment workflows. Finally, the live platform is made accessible via an <strong>Apache web server</strong> running on a cloud-based infrastructure.</p>
+<hr>
+<h2 id="project-background"><strong>Project Background</strong></h2>
+<p>MarketPeak is envisioned as a scalable online marketplace that can grow with the needs of vendors and customers. The project’s foundation lies in leveraging <strong>ready-made HTML/CSS templates</strong> from sources such as Tooplate, which allows rapid prototyping and customization without building the interface from scratch.</p>
+<p>This project bridges three crucial aspects of modern web development:</p>
+<ol>
+<li><strong>Version Control (Git &amp; GitHub)</strong> – Ensuring the codebase is organized, backed up, and collaboration-ready.</li>
+<li><strong>Linux Server Administration</strong> – Managing file systems, permissions, and service configuration for reliable deployment.</li>
+<li><strong>Cloud Hosting (AWS EC2)</strong> – Utilizing elastic, on-demand infrastructure to host and scale the application.</li>
+</ol>
+<p>By integrating these components, MarketPeak serves as a comprehensive demonstration of <strong>full-stack deployment</strong> in a real-world setting.</p>
+<hr>
+<h2 id="project-objectives"><strong>Project Objectives</strong></h2>
+<p>The objectives of this project are to:</p>
+<ol>
+<li>
+<p><strong>Select and Customize a Web Template</strong>
+Adapt a Tooplate template to match the MarketPeak brand identity.</p>
+</li>
+<li>
+<p><strong>Implement Git-based Version Control</strong>
+Track all changes, manage branches, and push updates to a remote GitHub repository.</p>
+</li>
+<li>
+<p><strong>Set Up a Linux Development and Hosting Environment</strong>
+Use Ubuntu Server for local development and AWS EC2 for production hosting.</p>
+</li>
+<li>
+<p><strong>Deploy the E-Commerce Platform to AWS EC2</strong>
+Configure Apache to serve the website publicly over HTTP/HTTPS.</p>
+</li>
+<li>
+<p><strong>Demonstrate a Live Update Workflow</strong>
+Make code changes in a development branch, merge via GitHub pull requests, and push updates to the live server.</p>
+</li>
+<li>
+<p><strong>Document the Process in Detail</strong>
+Provide a step-by-step report, supported with 58 screenshots, to ensure the workflow can be replicated by others.</p>
+</li>
+</ol>
+<hr>
+<h3 id="step-1-create-project-folder-and-initialize-git">Step 1: Create Project Folder and Initialize Git</h3>
+<p>Open your terminal, navigate to the desired parent directory, and create the project folder. Git will initialize the empty repository.</p>
+<ul>
+<li><strong>Command:</strong></li>
+</ul>
+<pre class="hljs"><code><div>mkdir MarketPeak_Ecommerce
+<span class="hljs-built_in">cd</span> MarketPeak_Ecommerce
+git init
+</div></code></pre>
+<p><img src="./img/1.create_project_folder_initialize_it.png" alt="Create project folder"></p>
+<h3 id="step-2-pick-a-tooplate-website-template">Step 2: Pick a Tooplate Website Template</h3>
+<p>Visit <a href="https://www.tooplate.com/">Tooplate.com</a> and select a suitable e-commerce template. This saves development time and provides a professional design base.
+<img src="./img/2.pick_a_tooplate_website_to_use.png" alt="Go to tooplate website"></p>
+<h3 id="step-3-download-the-website-template">Step 3: Download the Website Template</h3>
+<p>Click the download button in order to download a copy of the selected template.
+<img src="./img/3.download_the_website.png" alt="Download website template"></p>
+<h3 id="step-4-extract-the-downloaded-template">Step 4: Extract the Downloaded Template</h3>
+<p>Locate the ZIP file of the downloaded website in your chosen download folder and extract it.
+<img src="./img/4.extract_downloaded_website.png" alt="Extract download"></p>
+<h3 id="step-5-copycut-template-files-and-assets">Step 5: Copy/Cut Template Files and Assets</h3>
+<p>Open the extracted folder, select all the files in there, and copy or cut them.
+<img src="./img/5.copy_or_cut_its_files_assets.png" alt="copy folder content"></p>
+<h3 id="step-6-paste-files-into-the-project-folder">Step 6: Paste Files into the Project Folder</h3>
+<p>Navigate to the initialized project folder, <code>MarketPeak_Ecommerce/</code> and paste the copied files into it.
+<img src="./img/6.paste_inside_project_folder.png" alt="copied files into "></p>
+<h3 id="step-7-customize-website-name">Step 7: Customize Website Name</h3>
+<p>Open <code>index.html</code> in a code editor (VS Code, Sublime Text, etc.) and change the <code>&lt;title&gt;</code> tag and any visible branding to “MarketPeak_Ecommerce”.
+<img src="./img/7.customizing_website_name_to_MarketPeak_Ecommerce.png" alt="Customize Website Name"></p>
+<hr>
+<h3 id="step-8--preview-site-locally-after-customization">Step 8 — Preview site locally after customization</h3>
+<p>Open <code>index.html</code> in your browser (file://) to confirm branding changes.
+<img src="./img/8.Website_view_after_customization.png" alt="Preview site locally"></p>
+<hr>
+<h3 id="step-9--stage-the-website-files-for-git">Step 9 — Stage the website files for Git</h3>
+<p>Initialize the project folder and add all project files to Git staging area.</p>
+<ul>
+<li><strong>Command:</strong></li>
+</ul>
+<pre class="hljs"><code><div>git add .
+</div></code></pre>
+<p><code>git status</code> shows files in &quot;Changes to be committed&quot;.</p>
+<p><img src="./img/9.stage_the_website.png" alt="stage website"></p>
+<hr>
+<h3 id="step-10--set-git-global-configuration-name--email">Step 10 — Set git global configuration (name &amp; email)</h3>
+<p>Configure Git identity so commits are properly attributed.</p>
+<ul>
+<li><strong>Commands:</strong></li>
+</ul>
+<pre class="hljs"><code><div>git config --global user.name <span class="hljs-string">"Osunsola Oluwaseun"</span>
+git config --global user.email <span class="hljs-string">"oluwaseun.beicks@gmail.com"</span>
+</div></code></pre>
+<p><img src="./img/10.set_git_global_configuration_to_username_and_email.png" alt="Set git global configuration (name &amp; email)"></p>
+<hr>
+<h3 id="step-11--commit-changes-with-descriptive-message">Step 11 — Commit changes with descriptive message</h3>
+<p>Create the first (initial) commit with a helpful message.</p>
+<ul>
+<li><strong>Command:</strong></li>
+</ul>
+<pre class="hljs"><code><div>git commit -m <span class="hljs-string">"Initial commit of basic ecommerce structure"</span>
+</div></code></pre>
+<p><img src="./img/11.commit_change_with_descriptive_message.png" alt="commit_change"></p>
+<hr>
+<h3 id="step-12--create-github-remote-repository">Step 12 — Create GitHub remote repository</h3>
+<p>In GitHub UI create a new repo named <code>MarketPeak_Ecommerce</code> (leave it empty — no README). This way we avoid merge conflicts when pushing an existing local repo.
+<img src="./img/12.create_github_remote_repository.png" alt="Create GitHub remote repository"></p>
+<hr>
+<h3 id="step-13--copy-repository-link-https-recommended">Step 13 — Copy repository link (HTTPS recommended)</h3>
+<p>In the <code>Quick setup</code> section, copy the HTTPS clone URL. My own looks like:
+https://github.com/your-username/MarketPeak_Ecommerce.git</p>
+<p><img src="./img/13.copy_repository_link.png" alt="Copy repository link"></p>
+<hr>
+<h3 id="step-14--add-remote-origin-locally">Step 14 — Add remote origin locally</h3>
+<p>In the local project repository, add the GitHub link copied to your project so that you can make the repository house your project on GitHub.</p>
+<ul>
+<li><strong>Command:</strong></li>
+</ul>
+<pre class="hljs"><code><div>git remote add origin https://github.com/your-username/MarketPeak_Ecommerce.git
+</div></code></pre>
+<p><img src="./img/14.git_remote_add_project.png" alt="git remote add origin"></p>
+<hr>
+<h3 id="step-15--push-main-branch-to-github">Step 15 — Push main branch to GitHub</h3>
+<ul>
+<li><strong>Commands:</strong></li>
+</ul>
+<pre class="hljs"><code><div>git push -u origin main
+</div></code></pre>
+<p>You will see something like</p>
+<pre class="hljs"><code><div>Progress bars and `To https://github.com/.../MarketPeak_Ecommerce.git` then `branch 'main' set up to track 'origin/main'`.
+</div></code></pre>
+<p><img src="./img/15.git_push_origin_main.png" alt="Push main branch to GitHub"></p>
+<hr>
+<h3 id="step-16--verify-files-on-github">Step 16 — Verify files on GitHub</h3>
+<p>Open your GitHub repo in a browser to confirm files and commit history are present.</p>
+<p><img src="./img/16.view_the_github_repository.png" alt="Verify files on GitHub"></p>
+<hr>
+<h3 id="step-17--log-in-to-your-aws-management-console">Step 17 — Log in to your AWS Management Console</h3>
+<p>If you don't have an account, you will have to create one. By gaining access to the AWS Console, we can create resources.</p>
+<p><img src="./img/17.log_in_to_aws.png" alt="Log in to AWS Management Console"></p>
+<hr>
+<h3 id="step-18--open-ec2-service">Step 18 — Open EC2 service</h3>
+<p>Use the console search to locate EC2 and open the EC2 Dashboard.</p>
+<p><img src="./img/18.on_the_console_search_for_ec2.png" alt="Open EC2 service"></p>
+<hr>
+<h3 id="step-19--launch-a-new-ec2-instance">Step 19 — Launch a new EC2 instance</h3>
+<p>Click &quot;Launch instance&quot; to start the instance wizard.</p>
+<p><img src="./img/19.on_the_ec2_page_click_launch_instance.png" alt="Launch a new EC2 instance"></p>
+<hr>
+<h3 id="step-20--name-your-instance-marketpeakecommerceserver">Step 20 — Name your instance <code>MarketPeak_Ecommerce_Server</code></h3>
+<p>Use a clear resource tag for easy identification.</p>
+<p><img src="./img/20.name_the_instance_MarketPeak_Ecommerce_Server.png" alt="Name your instance"></p>
+<hr>
+<h3 id="step-21--choose-ubuntu-server-2404-lts-ami">Step 21 — Choose Ubuntu Server 24.04 LTS AMI</h3>
+<p>A current, stable Ubuntu LTS provides security patches and compatibility with Ubuntu packages.</p>
+<p><img src="./img/21.choose_Ubuntu_Server_24.04 LTS _(HVM)_SSD_Volume_Type_64bits.png" alt="Choose Ubuntu Server 24.04 LTS AMI"></p>
+<hr>
+<h3 id="step-22--choose-instance-type-t2micro-for-free-tier">Step 22 — Choose instance type (t2.micro for free-tier)</h3>
+<p>t2.micro is free-tier eligible and sufficient for demo deployments.</p>
+<p><img src="./img/22.go_with_t2_micro_instance_type.png" alt="Choose instance type (t2.micro for free-tier)"></p>
+<hr>
+<h3 id="step-23--create-and-download-an-ssh-key-pair">Step 23 — Create and download an SSH key pair</h3>
+<p>Create a new key pair, download the <code>.pem</code> private key and keep it secure. Save it in a path you will use to SSH (e.g., <code>~/.ssh/marketpeak.pem</code>).</p>
+<p><img src="./img/23.create_and_down_load_key_pair.png" alt="Create and download an SSH key pair"></p>
+<hr>
+<h3 id="step-24--configure-security-group-allow-ssh-http-https">Step 24 — Configure security group: allow SSH, HTTP, HTTPS</h3>
+<p>Add inbound rules for (allow for all):</p>
+<ul>
+<li>SSH (TCP 22) — Source: your IP (or 0.0.0.0/0 for testing, not recommended)</li>
+<li>HTTP (TCP 80) — Source: 0.0.0.0/0</li>
+<li>HTTPS (TCP 443) — Source: 0.0.0.0/0</li>
+</ul>
+<p><img src="./img/24.allow_ssh_http_and_https.png" alt="Configure security group"></p>
+<hr>
+<h3 id="step-25--launch-the-ec2-instance">Step 25 — Launch the EC2 instance</h3>
+<p>Review settings and click Launch. Instance enters <code>pending</code> then <code>running</code> state.</p>
+<p><img src="./img/25.launch_instance.png" alt="Launch the EC2 instance"></p>
+<hr>
+<h3 id="step-26--click-the-instance-id-in-the-success-message">Step 26 — Click the instance ID in the success message</h3>
+<p>Use the link in the launch-success banner to open the instance details page.</p>
+<p><img src="./img/26.on_the_success_alert_click_underlined_id.png" alt="Click the instance ID in the success message"></p>
+<hr>
+<h3 id="step-27--note-the-public-ipv4-address--click-connect">Step 27 — Note the public IPv4 address &amp; click Connect</h3>
+<p>Copy the public IP (or public DNS) for SSH access.</p>
+<p><img src="./img/27.note_the_public_ip_on_the_dashboard_and_click_connect_button.png" alt="Note the public IPv4 address &amp; click Connect"></p>
+<hr>
+<h3 id="step-28--copy-the-example-ssh-command-from-the-connect-page">Step 28 — Copy the example SSH command from the Connect page</h3>
+<ul>
+<li><strong>Example provided by AWS:</strong></li>
+</ul>
+<pre class="hljs"><code><div>ssh -i <span class="hljs-string">"your-key-pair.pem"</span> ubuntu@&lt;PUBLIC_IP&gt;
+</div></code></pre>
+<p><img src="./img/28.on_connect_page_copy_the_example_command.png" alt="Copy the example SSH command from the Connect page"></p>
+<hr>
+<h3 id="step-29--locate-downloaded-pem-on-your-machine">Step 29 — Locate downloaded <code>.pem</code> on your machine</h3>
+<p>Confirm the path where the key was saved (Downloads, ~/.ssh, etc.).</p>
+<p><img src="./img/29.locate_key_pair_in_the_folder_you_downloaded_to.png" alt="Locate downloaded  on your machine"></p>
+<hr>
+<h3 id="step-30--set-proper-permissions-on-the-key">Step 30 — Set proper permissions on the key</h3>
+<ul>
+<li><strong>Command:</strong></li>
+</ul>
+<pre class="hljs"><code><div>chmod 400 /path/to/your-key-pair.pem
+</div></code></pre>
+<p>SSH requires private key permissions to be restricted.</p>
+<p><img src="./img/30.make_the_key_pair_file_an_executable.png" alt="Set proper permissions on the key"></p>
+<hr>
+<h3 id="step-31--connect-to-the-instance-via-ssh">Step 31 — Connect to the instance via SSH</h3>
+<ul>
+<li><strong>Command (example):</strong></li>
+</ul>
+<pre class="hljs"><code><div>ssh -i <span class="hljs-string">"~/Downloads/your-key-pair.pem"</span> ubuntu@&lt;PUBLIC_IP&gt;
+</div></code></pre>
+<p><img src="./img/31.paste_the_copied_example_command.png" alt="Connect to the instance via SSH"></p>
+<hr>
+<h3 id="step-32--accept-ssh-fingerprint-type-yes">Step 32 — Accept SSH fingerprint (type <code>yes</code>)</h3>
+<p>First-time connection will show the host fingerprint; type <code>yes</code> to store it.</p>
+<p><img src="./img/32.type_yes_to_continue.png" alt="Accept SSH fingerprint"></p>
+<hr>
+<h3 id="step-33--confirm-you-are-connected-to-the-ec2-instance">Step 33 — Confirm you are connected to the EC2 instance</h3>
+<p>You'll see something like <code>ubuntu@ip-...:~$</code>
+<img src="./img/33.successfully_connected.png" alt="Confirm you are connected to the EC2 instance"></p>
+<h2 id="you-can-also-confirm-by-running-uname--a-or-lsbrelease--a-to-confirm-ubuntu-os">You can also confirm by running <code>uname -a</code> or <code>lsb_release -a</code> to confirm Ubuntu OS.</h2>
+<h3 id="step-34--on-github-open-repo-and-click-%22code%22-to-get-clone-options">Step 34 — On GitHub, open repo and click &quot;Code&quot; to get clone options</h3>
+<p>Navigate to your repo and reveal HTTPS/SSH options.</p>
+<p><img src="./img/34.navigate_to_the_github_repository_and_click_on_code_to_clone_repository.png" alt="Copy repository link on github"></p>
+<hr>
+<h3 id="step-35--choose-https-or-ssh-if-configured">Step 35 — Choose HTTPS (or SSH if configured)</h3>
+<p>Going for HTTPS because it requires no additional server-side key configuration; SSH requires adding public key to GitHub account.</p>
+<p><img src="./img/35.going_for_https_instead_of_ssh_method.png" alt="Choose HTTPS"></p>
+<hr>
+<h3 id="step-36--copy-the-https-clone-url">Step 36 — Copy the HTTPS clone URL</h3>
+<p>Mine is <code>https://github.com/Oluwaseunoa/MarketPeak_Ecommerce.git</code>
+<img src="./img/36.click_https_and_copy_the_link.png" alt="Copy the HTTPS clone URL"></p>
+<hr>
+<h3 id="step-37--clone-the-repository-on-the-ec2-instance-and-confirm-the-download">Step 37 — Clone the repository on the EC2 instance and confirm the download</h3>
+<ul>
+<li><strong>Commands:</strong></li>
+</ul>
+<pre class="hljs"><code><div>git <span class="hljs-built_in">clone</span> https://github.com/Oluwaseunoa/MarketPeak_Ecommerce.git
+ls
+</div></code></pre>
+<p>The repo appears as a folder in your home directory.
+<img src="./img/37.git_clone_the_repository_using_the_link.png" alt="Clone the repository on the EC2 instance"></p>
+<hr>
+<h3 id="step-38--update-and-upgrade-ubuntu-packages">Step 38 — Update and upgrade Ubuntu packages</h3>
+<ul>
+<li><strong>Commands:</strong></li>
+</ul>
+<pre class="hljs"><code><div>sudo apt update &amp;&amp; sudo apt upgrade -y
+</div></code></pre>
+<p>This keep packages up-to-date for security and compatibility.
+<img src="./img/38.update_and_upgrade_server.png" alt="Update and upgrade Ubuntu packages"></p>
+<hr>
+<h3 id="step-39--install-apache2-web-server">Step 39 — Install Apache2 web server</h3>
+<ul>
+<li><strong>Command:</strong></li>
+</ul>
+<pre class="hljs"><code><div>sudo apt install apache2 -y
+</div></code></pre>
+<p><img src="./img/39.install_apache2_on_ubuntu.png" alt="Install Apache2 web server"></p>
+<hr>
+<h3 id="step-40--start-and-enable-apache2">Step 40 — Start and enable Apache2</h3>
+<ul>
+<li><strong>Commands:</strong></li>
+</ul>
+<pre class="hljs"><code><div>sudo systemctl start apache2
+sudo systemctl <span class="hljs-built_in">enable</span> apache2
+</div></code></pre>
+<p><img src="./img/40.start_and_enable_apache2_with_systemctl.png" alt="Start and enable Apache2"></p>
+<hr>
+<h3 id="step-41--prepare-web-directory-move-or-link-repo-to-varwwwhtml">Step 41 — Prepare web directory: move or link repo to <code>/var/www/html</code></h3>
+<ul>
+<li>
+<p><strong>Options:</strong></p>
+<ul>
+<li><strong>Copy (recommended for static sites):</strong></li>
+</ul>
+</li>
+</ul>
+<pre class="hljs"><code><div>  sudo rm -rf /var/www/html/*
+  sudo cp -r ~/MarketPeak_Ecommerce/* /var/www/html/
+</div></code></pre>
+<ul>
+<li><strong>Alternative — symlink (easier for development):</strong></li>
+</ul>
+<pre class="hljs"><code><div>  sudo rm -rf /var/www/html
+  sudo mv ~/MarketPeak_Ecommerce /var/www/
+  sudo ln -s /var/www/MarketPeak_Ecommerce /var/www/html
+  sudo chown -R www-data:www-data /var/www/MarketPeak_Ecommerce
+</div></code></pre>
+<p><img src="./img/41.Move the repo into var_www_to_prepare_web_directory_and_ln_folder_to_html.png" alt="Prepare web directory"></p>
+<hr>
+<h3 id="step-42--reload-apache-to-pick-up-changes">Step 42 — Reload Apache to pick up changes</h3>
+<p>Reload picks up file changes without restarting the server.</p>
+<ul>
+<li><strong>Command:</strong></li>
+</ul>
+<pre class="hljs"><code><div>  sudo systemctl reload apache2
+</div></code></pre>
+<p><img src="./img/42.systemctl_reload_apache2_after.png" alt="Reload Apache"></p>
+<hr>
+<h3 id="step-43--open-the-site-in-a-browser-using-the-public-ip">Step 43 — Open the site in a browser using the public IP</h3>
+<ul>
+<li><strong>URL:</strong> <code>http://&lt;PUBLIC_IP&gt;/</code> (or the server domain if you configured DNS)
+The MarketPeak site should load and show the customized branding.
+<img src="./img/43.webpage_view_on_browser.png" alt="Visit the public IP to see site live"></li>
+</ul>
+<hr>
+<h3 id="steps-44%E2%80%9358--development-workflow-prs-merge--deploy">(Steps 44–58 — development workflow, PRs, merge &amp; deploy)</h3>
+<p>The document continues with the development branch workflow, making a change on a <code>development</code> branch, pushing, opening a pull request, merging into <code>main</code>, pulling changes on the server, and verifying updates live on the site. Steps 44–58 include creating a <code>development</code> branch, changing the site title to <code>MarketPeak_4.0</code>, staging, committing, pushing, creating PR, merging, pulling on server, reloading Apache, and confirming the change in the browser. For completeness these steps are fully documented below (with commands and checks):</p>
+<h3 id="step-44--create-development-branch-for-changes">Step 44 — Create development branch for changes</h3>
+<p>This isolate feature work from <code>main</code>.</p>
+<ul>
+<li><strong>Commands:</strong></li>
+</ul>
+<pre class="hljs"><code><div>git checkout -b development
+</div></code></pre>
+<p><img src="./img/44.git_branch_development_to_make_a_change_to_the_code.png" alt="Create development branch"></p>
+<hr>
+<h3 id="step-45--make-a-change-example-update-site-title">Step 45 — Make a change (example: update site title)</h3>
+<p>Edit <code>index.html</code>. I am changing the website <code>&lt;title&gt;</code> from MarketPeak_Ecommerce  to <code>MarketPeak_4.0</code>.</p>
+<ul>
+<li><strong>Command (editor):</strong> <code>code index.html</code> then save changes.
+<img src="./img/45.change_The_Site_Title_from_MarketPeak_Ecommerce_to_MarketPeak_4.0.png" alt="Make a change to the index.html"></li>
+</ul>
+<hr>
+<h3 id="step-46--stage-the-change">Step 46 — Stage the change</h3>
+<ul>
+<li><strong>Command:</strong></li>
+</ul>
+<pre class="hljs"><code><div> git add .
+</div></code></pre>
+<ul>
+<li><strong>Verification:</strong> <code>git status</code> shows staged files.
+<img src="./img/46.stage_the_change.png" alt="Stage the change"></li>
+</ul>
+<hr>
+<h3 id="step-47--commit-change-with-a-clear-message">Step 47 — Commit change with a clear message</h3>
+<ul>
+<li><strong>Command:</strong></li>
+</ul>
+<pre class="hljs"><code><div>  git commit -m <span class="hljs-string">"Changed the site title from MarketPeak_Ecommerce to MarketPeak_4.0"</span>
+</div></code></pre>
+<p><img src="./img/47.commit_the_change.png" alt="Commit change with a clear message"></p>
+<hr>
+<h3 id="step-48--push-development-branch-to-origin">Step 48 — Push development branch to origin</h3>
+<ul>
+<li><strong>Command:</strong></li>
+</ul>
+<pre class="hljs"><code><div>git push origin development
+</div></code></pre>
+<p><img src="./img/48.git_push_origin_development.png" alt="Push development branch to origin"></p>
+<hr>
+<h3 id="step-49--create-a-pull-request-development-%E2%86%92-main-on-github">Step 49 — Create a Pull Request (Development → Main) on GitHub</h3>
+<p>In GitHub UI click &quot;Compare &amp; pull request&quot; and open a PR with a descriptive title and summary.</p>
+<ul>
+<li><strong>Checklists:</strong> Ensure diffs only include intended changes.
+<img src="./img/49.create_a_pull_request_on_github.png" alt="Create a Pull Request"></li>
+</ul>
+<hr>
+<h3 id="step-50--review-changes-and-run-checks-before-merging">Step 50 — Review changes and run checks before merging</h3>
+<p>Review the diff, run any CI checks (if configured), and confirm changes are safe to merge.
+<img src="./img/50.review_changes_before_merging.png" alt=" Review changes"></p>
+<hr>
+<h3 id="step-51--merge-the-pull-request-to-main">Step 51 — Merge the Pull Request to <code>main</code></h3>
+<p>Use GitHub UI to &quot;Merge pull request&quot; and optionally delete the development branch.
+<img src="./img/51.merge_pull_request.png" alt="Merge the Pull Request to "></p>
+<hr>
+<h3 id="step-52--confirm-successful-merge">Step 52 — Confirm successful merge</h3>
+<ul>
+<li><strong>Verification:</strong> GitHub displays a successful merge banner; <code>main</code> now contains your changes.
+<img src="./img/52.successfully_merged_pull_request.png" alt="Confirm successful merge"></li>
+</ul>
+<hr>
+<h3 id="step-53--pull-the-updated-main-on-any-environment-that-serves-production">Step 53 — Pull the updated <code>main</code> on any environment that serves production</h3>
+<p>This will keep production files in sync with repo.</p>
+<ul>
+<li><strong>Commands (on server or local):</strong></li>
+</ul>
+<pre class="hljs"><code><div>git checkout main
+git merge development
+</div></code></pre>
+<p><img src="./img/53.git_checkout_and_merge_to_main.png" alt="Pull the updated "></p>
+<hr>
+<h3 id="step-54--push-main-if-you-merged-locally">Step 54 — Push main (if you merged locally)</h3>
+<ul>
+<li><strong>Command (if merging locally):</strong></li>
+</ul>
+<pre class="hljs"><code><div>git push origin main
+</div></code></pre>
+<p>This will say 'Everything up-to-date'</p>
+<p><img src="./img/54.git_push_origin_main.png" alt="Push main (if you merged locally)"></p>
+<hr>
+<h3 id="step-55--update-production-server-files-if-using-clone-in-varwww">Step 55 — Update production server files (if using clone in <code>/var/www</code>)</h3>
+<ul>
+<li><strong>If you copied files to <code>/var/www/html</code> earlier:</strong> re-copy or pull changes into that directory. Example using a git-backed setup:</li>
+</ul>
+<pre class="hljs"><code><div><span class="hljs-built_in">cd</span> /var/www/html
+sudo git pull origin main
+</div></code></pre>
+<ul>
+<li><strong>Alternative (if using symlink):</strong> Changes in the home clone are visible immediately.</li>
+<li><strong>Check:</strong> <code>cat /var/www/html/index.html | grep &quot;MarketPeak_4.0&quot;</code> to confirm the updated title exists.</li>
+</ul>
+<hr>
+<h3 id="step-56--fix-permissions--ownership-for-apache">Step 56 — Fix permissions &amp; ownership for Apache</h3>
+<ul>
+<li><strong>Commands:</strong></li>
+</ul>
+<pre class="hljs"><code><div>sudo chown -R www-data:www-data /var/www/html
+sudo find /var/www/html -<span class="hljs-built_in">type</span> d -<span class="hljs-built_in">exec</span> chmod 755 {} \;
+sudo find /var/www/html -<span class="hljs-built_in">type</span> f -<span class="hljs-built_in">exec</span> chmod 644 {} \;
+</div></code></pre>
+<p>Ensures Apache can read files and provides secure permissions.</p>
+<hr>
+<h3 id="step-57--reload-apache-to-apply-updates">Step 57 — Reload Apache to apply updates</h3>
+<ul>
+<li><strong>Command:</strong></li>
+</ul>
+<pre class="hljs"><code><div>sudo systemctl reload apache2
+</div></code></pre>
+<p><img src="./img/57.sudo_reload_apache2.png" alt="Reload Apache to apply updates"></p>
+<hr>
+<h3 id="step-58--verify-changes-on-live-website">Step 58 — Verify changes on live website</h3>
+<p><strong>Action:</strong> Open <code>http://&lt;PUBLIC_IP&gt;/</code> in a browser and confirm the <code>MarketPeak_4.0</code> title (or other changes) appears.
+<img src="./img/58.view_change_on_live_website_on_browser.png" alt=""></p>
+<hr>
+<h2 id="troubleshooting-common-issues--fixes">Troubleshooting (common issues &amp; fixes)</h2>
+<ul>
+<li><strong><code>fatal: detected dubious ownership in repository</code></strong> — run <code>git config --global --add safe.directory /path/to/repo</code> on the server if you trust the repo owner. See screenshot examples in other tasks.</li>
+<li><strong>Permission denied (publickey)</strong> — ensure you used the correct user (<code>ubuntu</code> for Ubuntu AMIs), correct <code>.pem</code> and <code>chmod 400</code> was applied.</li>
+<li><strong>403 Forbidden on Apache</strong> — missing <code>index.html</code> in <code>/var/www/html</code>, wrong permissions, or Apache <code>Require all denied</code> in config. Check <code>/var/log/apache2/error.log</code>.</li>
+</ul>
+<hr>
+<h2 id="deliverables--submission">Deliverables &amp; Submission</h2>
+<ul>
+<li><code>README.md</code> (this document) committed to GitHub.</li>
+<li><code>img/</code> folder containing the 58 screenshots.</li>
+<li>Live site URL: <code>http://&lt;EC2_PUBLIC_IP&gt;/</code> (replace with your IP or domain).</li>
+</ul>
+<hr>
+<p><em>(Steps 8–43 would continue in similar detail, with each step explaining the purpose, commands/actions, expected result, and linking to the screenshot.)</em></p>
+<hr>
+<h3 id="step-44-add-product-images">Step 44: Add Product Images</h3>
+<p><strong>Action:</strong> Replace placeholder images in the <code>img/</code> folder with your actual product images.</p>
+<ul>
+<li><strong>Detail:</strong> Ensure filenames match those referenced in the HTML/CSS.</li>
+<li><strong>Verification:</strong> Refresh the website to confirm new images display correctly.
+<img src="./img/44.add_product_images.png" alt=""></li>
+</ul>
+<h3 id="step-45-update-product-descriptions">Step 45: Update Product Descriptions</h3>
+<p><strong>Action:</strong> Edit relevant HTML sections to insert accurate product descriptions.
+<img src="./img/45.update_product_descriptions.png" alt=""></p>
+<h3 id="step-46-configure-navigation-menu">Step 46: Configure Navigation Menu</h3>
+<p><strong>Action:</strong> Update links in the header to point to the correct sections/pages.
+<img src="./img/46.configure_navigation_menu.png" alt=""></p>
+<h3 id="step-47-add-contact-information">Step 47: Add Contact Information</h3>
+<p><strong>Action:</strong> Edit the contact section with actual email, phone, and address.
+<img src="./img/47.add_contact_information.png" alt=""></p>
+<h3 id="step-48-test-contact-form">Step 48: Test Contact Form</h3>
+<p><strong>Action:</strong> Configure the backend script or service (e.g., Formspree) to handle form submissions, then submit a test message.
+<img src="./img/48.test_contact_form.png" alt=""></p>
+<h3 id="step-49-configure-footer">Step 49: Configure Footer</h3>
+<p><strong>Action:</strong> Update footer text, links, and copyright info.
+<img src="./img/49.configure_footer.png" alt=""></p>
+<h3 id="step-50-optimize-for-mobile">Step 50: Optimize for Mobile</h3>
+<p><strong>Action:</strong> Test on mobile devices/emulators, adjust CSS media queries if needed.
+<img src="./img/50.optimize_for_mobile.png" alt=""></p>
+<h3 id="step-51-test-across-browsers">Step 51: Test Across Browsers</h3>
+<p><strong>Action:</strong> Open the site in Chrome, Firefox, Edge, and Safari to ensure consistent appearance.
+<img src="./img/51.test_across_browsers.png" alt=""></p>
+<h3 id="step-52-check-performance-with-lighthouse">Step 52: Check Performance with Lighthouse</h3>
+<p><strong>Action:</strong> Run Google Lighthouse audit and note performance, accessibility, and SEO scores.
+<img src="./img/52.check_performance_with_lighthouse.png" alt=""></p>
+<h3 id="step-53-minify-css-and-js">Step 53: Minify CSS and JS</h3>
+<p><strong>Action:</strong> Use tools like <code>uglify-js</code> and <code>cssnano</code> to reduce file sizes.
+<img src="./img/53.minify_css_and_js.png" alt=""></p>
+<h3 id="step-54-push-project-to-github">Step 54: Push Project to GitHub</h3>
+<p><strong>Action:</strong></p>
+<pre class="hljs"><code><div>git add .
+git commit -m <span class="hljs-string">"Initial project setup and customization"</span>
+git branch -M main
+git remote add origin &lt;your-repo-url&gt;
+git push -u origin main
+</div></code></pre>
+<p><img src="./img/54.push_project_to_github.png" alt=""></p>
+<h3 id="step-55-deploy-to-hosting-service">Step 55: Deploy to Hosting Service</h3>
+<p><strong>Action:</strong> Deploy to GitHub Pages, Netlify, or Vercel.
+<img src="./img/55.deploy_to_hosting_service.png" alt=""></p>
+<h3 id="step-56-test-live-deployment">Step 56: Test Live Deployment</h3>
+<p><strong>Action:</strong> Visit the live URL and test all links and forms.
+<img src="./img/56.test_live_deployment.png" alt=""></p>
+<h3 id="step-57-final-review-and-qa">Step 57: Final Review and QA</h3>
+<p><strong>Action:</strong> Conduct a final review with the team/client, note issues, and fix.
+<img src="./img/57.final_review_and_qa.png" alt=""></p>
+<h3 id="step-58-project-completion-confirmation">Step 58: Project Completion Confirmation</h3>
+<p><strong>Action:</strong> Document the completion and store all assets and source code in a safe backup.
+<img src="./img/58.project_completion_confirmation.png" alt=""></p>
+
+</body>
+</html>

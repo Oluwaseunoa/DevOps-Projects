@@ -2,7 +2,7 @@
 
 **Author:** Oluwaseun Osunsola  
 **Environment:** Kali Linux (CLI-based)  
-**Project link:** https://
+**Project link:** [https://](https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/Cloud%20Computing/Website%20Deployment%20on%20EC2%20Ubuntu%20Instance)
 ---
 
 ## **Project Introduction**
