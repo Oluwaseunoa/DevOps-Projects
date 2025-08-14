@@ -1,12 +1,12 @@
 # E-Commerce Platform Deployment with Git, Linux, and AWS
 
 **Author:** Oluwaseun Osunsola  
-**Environment:** Kali Linux (CLI-based)  
+**Environment:** Windows OS [Hyper Terminal] 
+
 **Project link:** https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/Cloud%20Computing/Website%20Deployment%20on%20EC2%20Ubuntu%20Instance
 ---
 
 ## **Project Introduction**
-t
 This capstone project focuses on building and deploying an **e-commerce platform** named **MarketPeak**. The platform will provide core online shopping functionalities such as product listings, a shopping cart, and user authentication. The project demonstrates end-to-end web development and deployment practices, starting from selecting and customizing a suitable HTML/CSS template to hosting the website on an AWS EC2 instance.
 
 The entire development process is tracked with **Git** for version control, ensuring proper management of changes, collaboration, and rollback capabilities. The implementation takes place in a **Linux environment**, reinforcing industry-standard deployment workflows. Finally, the live platform is made accessible via an **Apache web server** running on a cloud-based infrastructure.
@@ -624,113 +624,3 @@ sudo systemctl reload apache2
 * `img/` folder containing the 58 screenshots.
 * Live site URL: `http://<EC2_PUBLIC_IP>/` (replace with your IP or domain).
 
----
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-*(Steps 8–43 would continue in similar detail, with each step explaining the purpose, commands/actions, expected result, and linking to the screenshot.)*
-
----
-
-### Step 44: Add Product Images
-
-**Action:** Replace placeholder images in the `img/` folder with your actual product images.
-* **Detail:** Ensure filenames match those referenced in the HTML/CSS.
-* **Verification:** Refresh the website to confirm new images display correctly.
-![](./img/44.add_product_images.png)
-
-### Step 45: Update Product Descriptions
-
-**Action:** Edit relevant HTML sections to insert accurate product descriptions.
-![](./img/45.update_product_descriptions.png)
-
-### Step 46: Configure Navigation Menu
-
-**Action:** Update links in the header to point to the correct sections/pages.
-![](./img/46.configure_navigation_menu.png)
-
-### Step 47: Add Contact Information
-
-**Action:** Edit the contact section with actual email, phone, and address.
-![](./img/47.add_contact_information.png)
-
-### Step 48: Test Contact Form
-
-**Action:** Configure the backend script or service (e.g., Formspree) to handle form submissions, then submit a test message.
-![](./img/48.test_contact_form.png)
-
-### Step 49: Configure Footer
-
-**Action:** Update footer text, links, and copyright info.
-![](./img/49.configure_footer.png)
-
-### Step 50: Optimize for Mobile
-
-**Action:** Test on mobile devices/emulators, adjust CSS media queries if needed.
-![](./img/50.optimize_for_mobile.png)
-
-### Step 51: Test Across Browsers
-
-**Action:** Open the site in Chrome, Firefox, Edge, and Safari to ensure consistent appearance.
-![](./img/51.test_across_browsers.png)
-
-### Step 52: Check Performance with Lighthouse
-
-**Action:** Run Google Lighthouse audit and note performance, accessibility, and SEO scores.
-![](./img/52.check_performance_with_lighthouse.png)
-
-### Step 53: Minify CSS and JS
-
-**Action:** Use tools like `uglify-js` and `cssnano` to reduce file sizes.
-![](./img/53.minify_css_and_js.png)
-
-### Step 54: Push Project to GitHub
-
-**Action:**
-
-```bash
-git add .
-git commit -m "Initial project setup and customization"
-git branch -M main
-git remote add origin <your-repo-url>
-git push -u origin main
-```
-
-![](./img/54.push_project_to_github.png)
-
-### Step 55: Deploy to Hosting Service
-
-**Action:** Deploy to GitHub Pages, Netlify, or Vercel.
-![](./img/55.deploy_to_hosting_service.png)
-
-### Step 56: Test Live Deployment
-
-**Action:** Visit the live URL and test all links and forms.
-![](./img/56.test_live_deployment.png)
-
-### Step 57: Final Review and QA
-
-**Action:** Conduct a final review with the team/client, note issues, and fix.
-![](./img/57.final_review_and_qa.png)
-
-### Step 58: Project Completion Confirmation
-
-**Action:** Document the completion and store all assets and source code in a safe backup.
-![](./img/58.project_completion_confirmation.png)
