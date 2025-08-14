@@ -4,6 +4,9 @@
 **Environment:** Windows OS [Hyper Terminal] 
 
 **Project link:** 
+https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/Cloud%20Computing/E-Commerce%20Platform%20Deployment%20with%20Git%2C%20Linux%2C%20and%20AWS
+
+
 ---
 
 
