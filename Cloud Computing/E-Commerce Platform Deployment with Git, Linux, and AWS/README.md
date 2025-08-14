@@ -3,8 +3,9 @@
 **Author:** Oluwaseun Osunsola  
 **Environment:** Windows OS [Hyper Terminal] 
 
-**Project link:** https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/Cloud%20Computing/Website%20Deployment%20on%20EC2%20Ubuntu%20Instance
+**Project link:** 
 ---
+
 
 ## **Project Introduction**
 This capstone project focuses on building and deploying an **e-commerce platform** named **MarketPeak**. The platform will provide core online shopping functionalities such as product listings, a shopping cart, and user authentication. The project demonstrates end-to-end web development and deployment practices, starting from selecting and customizing a suitable HTML/CSS template to hosting the website on an AWS EC2 instance.
