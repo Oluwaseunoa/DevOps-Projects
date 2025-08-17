@@ -1,7 +1,9 @@
-# **AWS Account Creation Project Report**
+# **AWS Account Creation**
 
 
-**Author:** Oluwaseun Osunsola
+**Author:** Oluwaseun Osunsola  
+**Environment:** AWS  
+**Project Link:** https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/Cloud%20Computing/AWS%20Account%20Creation
 
 ---
 
