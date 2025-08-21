@@ -1,4 +1,4 @@
-# **AWS Account Creation**
+# **AWS Free-Tier Account Creation**
 
 
 **Author:** Oluwaseun Osunsola  
