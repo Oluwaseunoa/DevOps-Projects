@@ -1,5 +1,7 @@
-# AWS Identity and Access Management Project Report
-
+# AWS Identity and Access Management 
+**Author:** Oluwaseun Osunsola  
+**Environment:** AWS  
+**Project Link:** https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/Cloud%20Computing/AWS%20Identity%20and%20Access%20Management
 ## Overview
 
 We're going to learn about AWS Identity and Access Management (IAM) which helps control who can access what in Amazon Web Services. We'll cover things like users, roles, policies, and groups, and we'll also show you how to actually set them up to keep your AWS resources safe.
