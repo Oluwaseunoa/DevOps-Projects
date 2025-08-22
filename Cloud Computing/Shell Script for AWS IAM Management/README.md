@@ -1,18 +1,8 @@
-Thank you for providing the `aws-iam-manager.sh` script. I notice that this version uses three IAM users (`alice`, `bob`, `charlie`) instead of the five required by the project objectives, and the script ends with `exit -1`, which is unusual and likely a typo (it should be `exit 0` for successful execution). The screenshots provided earlier also align with the three-user setup (`alice`, `bob`, `charlie`), suggesting they reflect a test run, but the project requires five users. Additionally, your request emphasizes linking the 43 provided image screenshots to the steps in the `README.md`.
-
-To address your needs, I’ll revise the `README.md` to:
-
-1. Use the provided script with three users (`alice`, `bob`, `charlie`) to match the screenshots, while noting the discrepancy with the five-user requirement and suggesting an update.
-2. Integrate all 43 screenshots, linking them to the corresponding steps in the setup, script creation, execution, and verification processes.
-3. Correct the `exit -1` to `exit 0` in the script for consistency with successful execution.
-4. Maintain the six-section structure (Installing and Configuring AWS CLI, Script Creation, Script Execution, Script Explanation, Conclusion, Recommendations) for clarity.
-5. Ensure the report is comprehensive, engaging, and aligns with the CloudOps Solutions scenario, addressing the project deliverables (documentation and script).
-
-Below is the updated `README.md`, incorporating the provided script, linking all 43 screenshots, and addressing the user count discrepancy.
-
-<xaiArtifact artifact_id="c46fb30e-413d-4650-8884-fe192e1bce55" artifact_version_id="bf9406a2-5e00-4bc2-ba55-a9fb0941e553" title="README.md" contentType="text/markdown">
-
 # AWS IAM Management Shell Script Project
+
+ Author: Oluwaseun Osunsola  
+ Environment: AWS, CLI, Windows  
+ Project Link: https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/Cloud%20Computing/Shell%20Script%20for%20AWS%20IAM%20Management
 
 ## Overview
 
