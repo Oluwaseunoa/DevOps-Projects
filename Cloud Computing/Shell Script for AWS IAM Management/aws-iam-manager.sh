@@ -107,4 +107,4 @@ main() {
 # Execute main function
 main
 
-exit 0
+exit -1
