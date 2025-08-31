@@ -1,6 +1,6 @@
 
 
-# 📝 Project: Exploring Amazon S3 (Simple Storage Service)
+# 📝Exploring Amazon S3 (Simple Storage Service)
 
 **Author:** Oluwaseun Osunsola  
 **Environment:** AWS  
@@ -98,7 +98,7 @@ S3 is a cornerstone of AWS because:
 ---
 
 ### 5. Upload Your First Object
-- On your laptop, create a file `welcome.txt` with the  and save it:  
+- On your laptop, create a file `hello welcome.txt` with the  and save it:  
 ![Create file](img/10.on_the_laptop_create_a_text_file_named_welcome.txt_with_some_data_in_it.png)
 
 - On your empty bucket dashboard, click **Upload**.  
@@ -166,6 +166,25 @@ S3 is a cornerstone of AWS because:
 ![Save policy](img/38.navigate_to_bucket_policy_tab_paste_policy_created_using_Policy_Generator_Click_Save%20changes.png)  
 ![Success policy](img/39.successfully_edited_bucket_policy.png)
 
+```bash
+# Policy copied
+{
+    "Version": "2012-10-17",
+    "Statement": [
+        {
+            "Sid": "Statement1",
+            "Effect": "Allow",
+            "Principal": "*",
+            "Action": [
+                "s3:GetObject",
+                "s3:GetObjectVersion"
+            ],
+            "Resource": "arn:aws:s3:::my-first-s3-bucket-069/*"
+        }
+    ]
+}
+
+```
 ---
 
 ### 8. Access Object Publicly
