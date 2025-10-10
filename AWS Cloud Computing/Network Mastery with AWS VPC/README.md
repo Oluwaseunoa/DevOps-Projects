@@ -1,7 +1,9 @@
 # Network Mastery with AWS VPC
-
-## Project Overview
-**Project Duration:** 2 hours
+**Author:** Oluwaseun Osunsola  
+**Environment:** AWS  
+**Project Link:** https://github.com/Oluwaseunoa/DevOps-Projects/tree/main  
+  
+## Project Overview  
 In this session, we explore the core concepts of Amazon Web Services (AWS), focusing specifically on Virtual Private Clouds (VPCs). Our objective is to understand the fundamental components of VPC infrastructure, including subnets, gateways, and routing tables. Through practical demonstrations and interactive exercises, we navigate the AWS Management Console to deploy and manage these critical components effectively.
 
 Before proceeding with setting up VPCs, ensure a solid understanding of cloud networking basics. 
