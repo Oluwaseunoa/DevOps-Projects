@@ -215,7 +215,7 @@ A **VPC endpoint** is a secure, dedicated tunnel between a VPC and an AWS servic
    ![Locate subnet ID](./img/35.select_the_created_NAT_gw_and_locate_subnet_id_link_at_details_section_and_click_on_it.png)
 
 7. Navigate to the **Route Table** section and click the route table ID.  
-   ![Click route table ID](./img/36.In_the_subnet page_navigate_to_Route_Table_section_and_click_one_route_table_id(rtb-...).png)
+   ![Click route table ID](./img/36.In_the_subnet%20page_navigate_to_Route_Table_section_and_click_one_route_table_id(rtb-...).png)
 
 8. Click **Routes**, then **Edit routes**.  
    ![Edit routes](./img/37.on_route_table_page_click_on_Routes_tab_and_then_edit_routes.png)
