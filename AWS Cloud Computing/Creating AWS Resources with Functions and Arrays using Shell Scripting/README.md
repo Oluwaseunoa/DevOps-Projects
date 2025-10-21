@@ -1,4 +1,8 @@
-# Mini Project Report: Creating AWS Resources with Bash Functions and Introducing Arrays
+# Creating AWS Resources with Bash Functions and Introducing Arrays
+
+**Author:** Oluwaseun Osunsola  
+**Environment:** AWS, VSCode & Hyper Terminal   
+**Project Link:** [GitHub Repository](https://github.com/Oluwaseunoa/DevOps-Projects/)
 
 ## Introduction
 
