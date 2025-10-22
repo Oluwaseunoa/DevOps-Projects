@@ -1,7 +1,10 @@
 # Configuring Auto Scaling with Application Load Balancer using Launch Template
 
-## Introduction
+**Author:** Oluwaseun Osunsola  
+**Environment:** AWS, VSCode & Hyper Terminal   
+**Project Link:** [GitHub Repository](https://github.com/Oluwaseunoa/DevOps-Projects/)
 
+## Introduction
 This project provides a comprehensive, hands-on guide to implementing a highly available and scalable web application architecture on AWS using **Auto Scaling Groups (ASG)** integrated with an **Application Load Balancer (ALB)** and **Launch Templates**. 
 
 The architecture automatically scales EC2 instances based on CPU utilization while distributing incoming traffic across healthy instances using round-robin load balancing. This ensures high availability, fault tolerance, and cost optimization by dynamically adjusting the number of running instances according to demand.
@@ -48,7 +51,7 @@ The architecture automatically scales EC2 instances based on CPU utilization whi
 | **Stress Tool** | Command-line utility (`stress`) used to generate artificial CPU load for testing scaling behavior |
 
 ## Architecture Overview
-
+![Architecture Overview](./img/00.architecture.png)
 ```
 Internet → Application Load Balancer (ALB) → Target Group → Auto Scaling Group (ASG)
                                                                  ↓
@@ -64,7 +67,8 @@ Internet → Application Load Balancer (ALB) → Target Group → Auto Scaling G
 This setup ensures your web application remains responsive under varying loads while automatically optimizing costs by terminating unused instances.
 
 ## Step-by-Step Guide
-
+### **1. Prerequisites & Setup**
+**Objective**: Prepare AWS environment and security prerequisites
 1. Search for EC2 and click on it.  
    ![Search for EC2 and click on it](./img/1.search_for_ec2_and_click_on_it.png)
 
@@ -80,6 +84,8 @@ This setup ensures your web application remains responsive under varying loads w
 5. Keypair created and downloaded.  
    ![Keypair created and downloaded](./img/5.keypair_created_and_downloaded.png)
 
+### **2. Initial EC2 Instances Creation**
+**Objective**: Automate creation of baseline web server instances
 6. Search for AWS CLI command reference EC2.  
    ![Search for AWS CLI command reference EC2](./img/6.search_for_aws_cli_command_reference_ec2.png)
 
@@ -107,6 +113,8 @@ This setup ensures your web application remains responsive under varying loads w
 14. Two instances seen created and running on the console.  
    ![Two instances seen created and running on the console](./img/14.two_instances_seen_created_and_runnin_on_the_console.png)
 
+### **3. Web Server Configuration (Instance 1)**
+**Objective**: Deploy Apache + PHP with dynamic instance metadata
 15. Click on instance-1 ID (may have another name in yours).  
    ![Click on instance-1 ID (may have another name in yours)](./img/15.click_on_instance-1_id(may_have_another_name_in_yours).png)
 
@@ -125,7 +133,7 @@ This setup ensures your web application remains responsive under varying loads w
 20. Save and exit (Ctrl-X and Y Enter).  
    ![Save and exit (Ctrl-X and Y Enter)](./img/20.save_and_exit(ctrl-x_and_y_enter).png)
 
-21. Turn starter-sh to executable (chmod +x).  
+21. Turn starter.sh to executable (chmod +x).  
    ![Turn starter-sh to executable (chmod +x)](./img/21.turn_starter-sh_to_executable(chmod+x).png)
 
 22. Execute starter-sh to install httpd and enable it.  
@@ -146,7 +154,7 @@ This setup ensures your web application remains responsive under varying loads w
 27. Save and exit (Ctrl+X Y Enter).  
    ![Save and exit (Ctrl+X Y Enter)](./img/27.save_and_exit(ctr+x_y_enter).png)
 
-28. Turn pagecreator-sh to executable (chmod +x).  
+28. Turn pagecreator.sh to executable (chmod +x).  
    ![Turn pagecreator-sh to executable (chmod +x)](./img/28.turn_pagecreator-sh_to_executable(chmod+x).png)
 
 29. Execute page creator-sh to create page.  
@@ -164,6 +172,8 @@ This setup ensures your web application remains responsive under varying loads w
 33. Exit CLI.  
    ![Exit CLI](./img/33.exit_cli.png)
 
+### **4. Web Server Configuration (Instance 2)**
+**Objective**: Replicate exact configuration for high availability
 34. Navigate back to instances dashboard and click on instance-2 ID.  
    ![Navigate back to instances dashboard and click on instance-2 ID](./img/34.navigate_back_to_instances_dashboard_and_click_on_instance-2_id.png)
 
@@ -203,6 +213,8 @@ This setup ensures your web application remains responsive under varying loads w
 46. Instance 2 is showing its details.  
    ![Instance 2 is showing its details](./img/46.instance_2_is_showing_its_details.png)
 
+### **5. Application Load Balancer (ALB) Setup**
+**Objective**: Configure traffic distribution across instances 
 47. To create load balancer navigate to instances dashboard.  
    ![To create load balancer navigate to instances dashboard](./img/47.to_create_load_balancer_navigate_to_instances_dashboard.png)
 
@@ -281,6 +293,8 @@ This setup ensures your web application remains responsive under varying loads w
 72. Both registered target are healthy for now.  
    ![Both registered target are healthy for now](./img/72.both_registered_target_are_healthy_for_now.png)
 
+### **6. Launch Template & AMI Creation** 
+**Objective**: Create reusable instance configuration template
 73. To auto scale the servers navigate to instances dashboard.  
    ![To auto scale the servers navigate to instances dashboard](./img/73.to_auto_scale_the_servers_navigate_to_instances_dashboard.png)
 
@@ -353,6 +367,8 @@ This setup ensures your web application remains responsive under varying loads w
 96. Template selected click next.  
    ![Template selected click next](./img/96.template_selected_click_next.png)
 
+### **7. Auto Scaling Group (ASG) Configuration**
+**Objective**: Implement automatic scaling infrastructure
 97. Choose VPC where servers are located.  
    ![Choose VPC where servers are located](./img/97.choose_vpc_where_servers_are_located.png)
 
@@ -395,6 +411,8 @@ This setup ensures your web application remains responsive under varying loads w
 109. Activity history shows launching a new EC2 instance increasing capacity from 0-1.  
    ![Activity history shows launching a new EC2 instance increasing capacity from 0-1](./img/109.activity_history_shows_lauching_a_new_ec2_instance_increasing_capacity_from_0-1.png)
 
+### **8. Scaling Validation & Testing**
+**Objective**: Verify initial auto-scaling functionality
 110. Navigate to instances page and under load balancing click on target group.  
    ![Navigate to instances page and under load balancing click on target group](./img/110.navigate_to_intances_page_and_under_load_balancing_click_on_target_group.png)
 
@@ -408,10 +426,10 @@ This setup ensures your web application remains responsive under varying loads w
    ![Proceed to the webpage and reload page](./img/113.proceed_to_the_webpage_and_reload_page.png)
 
 114. Instance with ID i-015b5e434635bd36e now displays reload again.  
-   ![Instance with ID i-015b5e434635bd36e now displays reload again](./img/114.instance_with_id_ i-015b5e434635bd36e_now_displays_reload_again.png)
+   ![Instance with ID i-015b5e434635bd36e now displays reload again](./img/114.instance_with_id_%20i-015b5e434635bd36e_now_displays_reload_again.png)
 
 115. Second instance with ID i-0367fc8ec64f643aa now displays reload again.  
-   ![Second instance with ID i-0367fc8ec64f643aa now displays reload again](./img/115.second_instance_with_id_ i-0367fc8ec64f643aa_now_displays_reload_again.png)
+   ![Second instance with ID i-0367fc8ec64f643aa now displays reload again](./img/115.second_instance_with_id_%20i-0367fc8ec64f643aa_now_displays_reload_again.png)
 
 116. Third instance with ID i-015b5e434635bd36e now displays reload again.  
    ![Third instance with ID i-015b5e434635bd36e now displays reload again](./img/116.third_instance_with_id_i-015b5e434635bd36e_now_displays_reload_again.png)
@@ -432,7 +450,7 @@ This setup ensures your web application remains responsive under varying loads w
    ![Generate CPU load by running stress -c 4](./img/121.generate_cpu_load_by_running_stress_-c_4.png)
 
 122. Note that after reloading CPU utilization of i-0f3653c7251fad6b8 has now increased to 400 percent.  
-   ![Note that after reloading CPU utilization of i-0f3653c7251fad6b8 has now increased to 400 percent](./img/122.note_that_after_reloading_cpu_utilization_of_ i-0f3653c7251fad6b8_has_now_increased_to_400_percent.png)
+   ![Note that after reloading CPU utilization of i-0f3653c7251fad6b8 has now increased to 400 percent](./img/112.observe_that_there_are_now_three_instances_under_targets.png)
 
 123. Install stress on the second original instance as well.  
    ![Install stress on the second original instance as well](./img/123.install_stress_on_the_second_original_instance_as_well.png)
@@ -443,6 +461,8 @@ This setup ensures your web application remains responsive under varying loads w
 124b. Note that the ASG created instance can not connect like the originals.  
    ![Note that the ASG created instance can not connect like the originals](./img/124b.note_that_the_ASG_created_instance_can_not_connect_like_the_originals.png)
 
+### **9. Launch Template Modification**
+**Objective**: Enable SSH access to auto-scaled instances
 125. Navigate to instances page and click on launch template.  
    ![Navigate to instances page and click on launch template](./img/125.naviage_to_instances_page_and_click_on_lauch_template.png)
 
@@ -488,6 +508,8 @@ This setup ensures your web application remains responsive under varying loads w
 136. Version now updated so we can use EC2 instance connect to fuzz our scales.  
    ![Version now updated so we can use EC2 instance connect to fuzz our scales](./img/136.version_now_update_so_we_can_use_ec2_instance_connect_to_fuzz_our_scales.png)
 
+### **10. Advanced Scaling Testing**
+**Objective**: Full end-to-end scaling validation with stress testing
 137. Select the EC2 created by ASG and terminate it.  
    ![Select the EC2 created by ASG and terminate it](./img/137.select_the_ec2_created_by_ASG_and_terminate_it.png)
 
@@ -525,22 +547,22 @@ This setup ensures your web application remains responsive under varying loads w
    ![Observe that there are now more instances created due to the surge in CPU consumption](./img/148.observe_that_there_are_now_more_instances_created_due_to_the_surge_in_cpu_consumption.png)
 
 149. After a reload I now have instance with ID i-05a876369e9b64885.  
-   ![After a reload I now have instance with ID i-05a876369e9b64885](./img/149.after_a_reload_i_now_have_instace_with_id_ i-05a876369e9b64885.png)
+   ![After a reload I now have instance with ID i-05a876369e9b64885](./img/149.after_a_reload_i_now_have_instace_with_id_%20i-05a876369e9b64885.png)
 
-150. After a reload I now have instance 2 with ID i-0f3653c7251fad6b8.  
-   ![After a reload I now have instance 2 with ID i-0f3653c7251fad6b8](./img/150.after_a_reload_i_now_have_instance_2_with_id_ i-0f3653c7251fad6b8.png)
+150. After a new reload I now have instance 2 with ID i-0f3653c7251fad6b8.  
+   ![After a reload I now have instance 2 with ID i-0f3653c7251fad6b8](./img/150.after_a_reload_i_now_have_instance_2_with_id_%20i-0f3653c7251fad6b8.png)
 
-150. After a reload I now have instance 5 with ID i-0c52afc9edb60330f.  
-   ![After a reload I now have instance 5 with ID i-0c52afc9edb60330f](./img/150.after_a_reload_i_now_have_instance_5_with_id_ i-0c52afc9edb60330f.png)
-
-151. After a reload I now have instance 3 with ID i-015b5e434635bd36e.  
-   ![After a reload I now have instance 3 with ID i-015b5e434635bd36e](./img/151.after_a_reload_i_now_have_instance_3_with_id_ i-015b5e434635bd36e.png)
+151. After another reload I now have instance 3 with ID i-0c52afc9edb60330f.  
+   ![After a reload I now have instance 3 with ID i-0c52afc9edb60330f](./img/151.after_a_reload_i_now_have_instance_3_with_id_%20i-015b5e434635bd36e.png)
 
 152. After a reload I now have instance 4 with ID i-015b5e434635bd36e.  
    ![After a reload I now have instance 4 with ID i-015b5e434635bd36e](./img/152.after_a_reload_i_now_have_instance_4_with_id_i-015b5e434635bd36e.png)
 
-153. Observe that all registered targets on target group are healthy.  
-   ![Observe that all registered targets on target group are healthy](./img/153.observe_that_all_register_target_on_target_group_are_healthy.png)
+153. After a reload I now have instance 5 with ID i-015b5e434635bd36e.  
+   ![After a reload I now have instance 5 with ID i-015b5e434635bd36e](./img/153.after_a_reload_i_now_have_instance_5_with_id_%20i-0c52afc9edb60330f.png)
+
+154. Observe that all registered targets on target group are healthy.  
+   ![Observe that all registered targets on target group are healthy](./img/154.observe_that_all_register_target_on_target_group_are_healthy.png)
 
    
 ## Conclusion
