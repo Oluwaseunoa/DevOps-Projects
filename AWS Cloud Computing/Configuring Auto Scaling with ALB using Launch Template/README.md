@@ -1,6 +1,67 @@
 # Configuring Auto Scaling with Application Load Balancer using Launch Template
 
-This project demonstrates the step-by-step process of configuring an Auto Scaling group (ASG) integrated with an Application Load Balancer (ALB) using a Launch Template in AWS EC2. The steps are organized sequentially based on the numbered screenshots provided.
+## Introduction
+
+This project provides a comprehensive, hands-on guide to implementing a highly available and scalable web application architecture on AWS using **Auto Scaling Groups (ASG)** integrated with an **Application Load Balancer (ALB)** and **Launch Templates**. 
+
+The architecture automatically scales EC2 instances based on CPU utilization while distributing incoming traffic across healthy instances using round-robin load balancing. This ensures high availability, fault tolerance, and cost optimization by dynamically adjusting the number of running instances according to demand.
+
+**Key Features Demonstrated:**
+- Automated EC2 instance provisioning using custom scripts and Launch Templates
+- Web server (Apache + PHP) configuration with dynamic instance identification
+- Application Load Balancer setup with target groups and health checks
+- Auto Scaling with target tracking scaling policies
+- Public IP assignment for SSH connectivity to scaled instances
+- CPU stress testing to trigger automatic scaling
+
+## Objectives
+
+### Primary Objectives
+1. **Deploy Scalable Web Infrastructure**: Create a fully automated web application environment that scales horizontally based on demand
+2. **Implement Load Balancing**: Configure ALB to distribute traffic across multiple EC2 instances using round-robin algorithm
+3. **Enable Auto Scaling**: Set up ASG with target tracking policies to maintain performance during traffic spikes
+4. **Ensure High Availability**: Demonstrate fault tolerance by terminating instances and verifying automatic replacement
+5. **Cost Optimization**: Configure minimum/maximum instance limits and scaling policies to control costs
+
+### Secondary Objectives
+1. **Launch Template Management**: Create, modify, and version Launch Templates for consistent instance configuration
+2. **Health Monitoring**: Implement ELB health checks to ensure only healthy instances receive traffic
+3. **Instance Connectivity**: Enable SSH access to Auto Scaling instances via EC2 Instance Connect
+4. **Dynamic Content Generation**: Deploy PHP applications that display unique instance information
+5. **Scaling Validation**: Stress test instances to trigger and verify automatic scaling behavior
+
+## Definition of Terms
+
+| **Term** | **Definition** |
+|----------|----------------|
+| **Auto Scaling Group (ASG)** | A collection of EC2 instances that automatically scales based on defined policies (min, desired, max capacity) |
+| **Application Load Balancer (ALB)** | AWS Layer 7 load balancer that routes HTTP/HTTPS traffic to targets (instances, containers) based on rules |
+| **Launch Template** | A configuration template for launching EC2 instances, including AMI, instance type, security groups, and user data |
+| **Target Group** | A logical group of registered targets (EC2 instances) that receive traffic from a load balancer |
+| **Target Tracking Scaling Policy** | Auto Scaling policy that maintains a target metric value (e.g., 50% CPU utilization) by adding/removing instances |
+| **Health Check** | ELB monitoring that verifies target health by sending HTTP requests and checking response codes |
+| **AMI (Amazon Machine Image)** | Pre-configured template containing OS, application server, and application code for launching EC2 instances |
+| **Availability Zone (AZ)** | Isolated location within a region with independent power, networking, and cooling |
+| **Security Group** | Virtual firewall that controls inbound/outbound traffic to EC2 instances |
+| **EC2 Instance Connect** | Browser-based SSH client for secure connection to EC2 instances without managing key pairs |
+| **Round Robin** | Load balancing algorithm that distributes requests sequentially across available targets |
+| **Stress Tool** | Command-line utility (`stress`) used to generate artificial CPU load for testing scaling behavior |
+
+## Architecture Overview
+
+```
+Internet → Application Load Balancer (ALB) → Target Group → Auto Scaling Group (ASG)
+                                                                 ↓
+                                                    Launch Template (Version 2)
+                                                                 ↓
+                           EC2 Instances (Apache + PHP) ← Scales based on CPU → 
+```
+
+**Scaling Policy**: Target 75% CPU utilization  
+**Capacity**: Min=1, Desired=3, Max=5 instances  
+**Health Check**: HTTP/80 responding with 200 status code
+
+This setup ensures your web application remains responsive under varying loads while automatically optimizing costs by terminating unused instances.
 
 ## Step-by-Step Guide
 
@@ -38,7 +99,7 @@ This project demonstrates the step-by-step process of configuring an Auto Scalin
    ![Add script to automate EC2 creation](./img/11.add_script_to_automate_ec2_creation.png)
 
 12. Note that create_ec2_instances() will create two instances in a public subnet.  
-   ![Note that create_ec2_instances() will create two instances in a public subnet](./img/12.note_that_ create_ec2_instances()_will_create_two_instances_in_a_public_subnet.png)
+   ![Note that create_ec2_instances() will create two instances in a public subnet](./img/12.note_that_%20create_ec2_instances()_will_create_two_instances_in_a_public_subnet.png)
 
 13. Execute script and EC2 resources successfully created.  
    ![Execute script and EC2 resources successfully created](./img/13.execute_script_and_ec2_resoures_successfully_created.png)
