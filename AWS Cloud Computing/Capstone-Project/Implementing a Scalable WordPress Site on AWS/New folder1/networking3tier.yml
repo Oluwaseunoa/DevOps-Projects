@@ -1,0 +1,106 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Step 2 - Networking for 3-tier WordPress (Internet Gateway, NAT, and Routes)
+
+Parameters:
+  VPCId:
+    Type: AWS::EC2::VPC::Id
+    Description: Select the VPC created from vpc3tier.yml
+
+  PublicSubnetAZ1:
+    Type: AWS::EC2::Subnet::Id
+    Description: Public Subnet in AZ1 (for NAT Gateway)
+
+  PublicSubnetAZ2:
+    Type: AWS::EC2::Subnet::Id
+    Description: Public Subnet in AZ2 (optional, can be used later)
+
+Resources:
+  # =============================
+  # Internet Gateway
+  # =============================
+  InternetGateway:
+    Type: AWS::EC2::InternetGateway
+    Properties:
+      Tags:
+        - Key: Name
+          Value: !Sub "${VPCId}-igw"
+
+  AttachGateway:
+    Type: AWS::EC2::VPCGatewayAttachment
+    Properties:
+      VpcId: !Ref VPCId
+      InternetGatewayId: !Ref InternetGateway
+
+  # =============================
+  # NAT Gateway
+  # =============================
+  NatEIP:
+    Type: AWS::EC2::EIP
+    Properties:
+      Domain: vpc
+      Tags:
+        - Key: Name
+          Value: nat-eip
+
+  NatGateway:
+    Type: AWS::EC2::NatGateway
+    Properties:
+      AllocationId: !GetAtt NatEIP.AllocationId
+      SubnetId: !Ref PublicSubnetAZ1
+      Tags:
+        - Key: Name
+          Value: nat-gateway
+
+  # =============================
+  # Public Route Table
+  # =============================
+  PublicRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPCId
+      Tags:
+        - Key: Name
+          Value: public-rt
+
+  PublicDefaultRoute:
+    Type: AWS::EC2::Route
+    DependsOn: AttachGateway
+    Properties:
+      RouteTableId: !Ref PublicRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      GatewayId: !Ref InternetGateway
+
+  # =============================
+  # Private Route Table
+  # =============================
+  PrivateRouteTable:
+    Type: AWS::EC2::RouteTable
+    Properties:
+      VpcId: !Ref VPCId
+      Tags:
+        - Key: Name
+          Value: private-rt
+
+  PrivateDefaultRoute:
+    Type: AWS::EC2::Route
+    Properties:
+      RouteTableId: !Ref PrivateRouteTable
+      DestinationCidrBlock: 0.0.0.0/0
+      NatGatewayId: !Ref NatGateway
+
+Outputs:
+  InternetGatewayId:
+    Description: Internet Gateway ID
+    Value: !Ref InternetGateway
+
+  NatGatewayId:
+    Description: NAT Gateway ID
+    Value: !Ref NatGateway
+
+  PublicRouteTableId:
+    Description: Public Route Table
+    Value: !Ref PublicRouteTable
+
+  PrivateRouteTableId:
+    Description: Private Route Table
+    Value: !Ref PrivateRouteTable

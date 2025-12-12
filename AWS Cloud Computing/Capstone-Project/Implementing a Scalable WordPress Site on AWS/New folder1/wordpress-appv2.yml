@@ -1,0 +1,197 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: WordPress App Layer (connected to RDS)
+
+Parameters:
+  VPCId:
+    Type: AWS::EC2::VPC::Id
+    Description: Select the existing VPC
+
+  PublicSubnetAZ1:
+    Type: AWS::EC2::Subnet::Id
+    Description: Public Subnet in AZ1 (for ALB)
+
+  PublicSubnetAZ2:
+    Type: AWS::EC2::Subnet::Id
+    Description: Public Subnet in AZ2 (for ALB)
+
+  PrivateAppSubnetAZ1:
+    Type: AWS::EC2::Subnet::Id
+    Description: Private App Subnet in AZ1 (for EC2)
+
+  PrivateAppSubnetAZ2:
+    Type: AWS::EC2::Subnet::Id
+    Description: Private App Subnet in AZ2 (for EC2)
+
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: Select your EC2 key pair
+
+  LatestAmazonLinux2AMI:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
+
+  # === Database Parameters (enter manually from RDS Outputs) ===
+  DBEndpoint:
+    Type: String
+    Description: "Enter the RDS endpoint (from RDS stack output, e.g. mydb.xxxxx.us-east-2.rds.amazonaws.com)"
+
+  DBName:
+    Type: String
+    Default: "wordpressdb"
+    Description: "Database name (must match RDS stack)"
+
+  DBUsername:
+    Type: String
+    Default: "wpadmin"
+    Description: "Database username (same as RDS stack)"
+
+  DBPassword:
+    Type: String
+    NoEcho: true
+    Description: "Database password (same as RDS stack)"
+
+Resources:
+  # === Security Groups ===
+  ALBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP access from the internet
+      VpcId: !Ref VPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: wordpress-alb-sg
+
+  EC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP from ALB and MySQL to RDS
+      VpcId: !Ref VPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          SourceSecurityGroupId: !Ref ALBSecurityGroup
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          CidrIp: 10.0.0.0/16
+      Tags:
+        - Key: Name
+          Value: wordpress-ec2-sg
+
+  # === Load Balancer ===
+  AppLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: wordpress-alb
+      Subnets:
+        - !Ref PublicSubnetAZ1
+        - !Ref PublicSubnetAZ2
+      SecurityGroups:
+        - !Ref ALBSecurityGroup
+      Scheme: internet-facing
+      Type: application
+      Tags:
+        - Key: Name
+          Value: wordpress-alb
+
+  # === WordPress EC2 Instances ===
+  WordPressInstance1:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmazonLinux2AMI
+      InstanceType: t3.micro
+      SubnetId: !Ref PrivateAppSubnetAZ1
+      SecurityGroupIds:
+        - !Ref EC2SecurityGroup
+      KeyName: !Ref KeyName
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          amazon-linux-extras install -y php8.0 mariadb10.5
+          yum install -y httpd wget
+          systemctl enable httpd
+          systemctl start httpd
+          cd /var/www/html
+          wget https://wordpress.org/latest.tar.gz
+          tar -xzf latest.tar.gz --strip-components=1
+          cp wp-config-sample.php wp-config.php
+          sed -i "s/database_name_here/${DBName}/" wp-config.php
+          sed -i "s/username_here/${DBUsername}/" wp-config.php
+          sed -i "s/password_here/${DBPassword}/" wp-config.php
+          sed -i "s/localhost/${DBEndpoint}/" wp-config.php
+          chown -R apache:apache /var/www/html
+          systemctl restart httpd
+      Tags:
+        - Key: Name
+          Value: wordpress-app-az1
+
+  WordPressInstance2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmazonLinux2AMI
+      InstanceType: t3.micro
+      SubnetId: !Ref PrivateAppSubnetAZ2
+      SecurityGroupIds:
+        - !Ref EC2SecurityGroup
+      KeyName: !Ref KeyName
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          amazon-linux-extras install -y php8.0 mariadb10.5
+          yum install -y httpd wget
+          systemctl enable httpd
+          systemctl start httpd
+          cd /var/www/html
+          wget https://wordpress.org/latest.tar.gz
+          tar -xzf latest.tar.gz --strip-components=1
+          cp wp-config-sample.php wp-config.php
+          sed -i "s/database_name_here/${DBName}/" wp-config.php
+          sed -i "s/username_here/${DBUsername}/" wp-config.php
+          sed -i "s/password_here/${DBPassword}/" wp-config.php
+          sed -i "s/localhost/${DBEndpoint}/" wp-config.php
+          chown -R apache:apache /var/www/html
+          systemctl restart httpd
+      Tags:
+        - Key: Name
+          Value: wordpress-app-az2
+
+  # === Target Group & Listener ===
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Port: 80
+      Protocol: HTTP
+      VpcId: !Ref VPCId
+      TargetType: instance
+      HealthCheckPath: /
+      Targets:
+        - Id: !Ref WordPressInstance1
+          Port: 80
+        - Id: !Ref WordPressInstance2
+          Port: 80
+      Tags:
+        - Key: Name
+          Value: wordpress-target-group
+
+  Listener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref AppLoadBalancer
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+
+Outputs:
+  LoadBalancerDNS:
+    Description: DNS name of the Application Load Balancer
+    Value: !GetAtt AppLoadBalancer.DNSName

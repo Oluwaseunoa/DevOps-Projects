@@ -1,0 +1,91 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Step 4 - RDS MySQL for WordPress (3-tier architecture)
+
+Parameters:
+  VPCId:
+    Type: AWS::EC2::VPC::Id
+
+  PrivateDBSubnetAZ1:
+    Type: AWS::EC2::Subnet::Id
+    Description: Private DB Subnet in AZ1
+  PrivateDBSubnetAZ2:
+    Type: AWS::EC2::Subnet::Id
+    Description: Private DB Subnet in AZ2
+
+  DBUsername:
+    Type: String
+    Default: wpadmin
+    Description: Master username for RDS
+
+  DBPassword:
+    Type: String
+    NoEcho: true
+    Description: Master password for RDS
+
+Resources:
+  # Security group for RDS - allows access only from EC2 SG
+  RDSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow MySQL access from WordPress EC2s
+      VpcId: !Ref VPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          CidrIp: 10.0.0.0/16  # Optionally restrict to your VPC CIDR
+      Tags:
+        - Key: Name
+          Value: wordpress-rds-sg
+
+  # Subnet group for RDS (so RDS is in private subnets)
+  DBSubnetGroup:
+    Type: AWS::RDS::DBSubnetGroup
+    Properties:
+      DBSubnetGroupDescription: "Private Subnets for WordPress DB"
+      SubnetIds:
+        - !Ref PrivateDBSubnetAZ1
+        - !Ref PrivateDBSubnetAZ2
+      DBSubnetGroupName: wordpress-db-subnet-group
+
+  # RDS MySQL instance
+  WordPressDB:
+    Type: AWS::RDS::DBInstance
+    Properties:
+      DBName: wordpressdb
+      AllocatedStorage: 20
+      DBInstanceClass: db.t3.micro
+      Engine: mysql
+      EngineVersion: "8.0"
+      MasterUsername: !Ref DBUsername
+      MasterUserPassword: !Ref DBPassword
+      DBSubnetGroupName: !Ref DBSubnetGroup
+      VPCSecurityGroups:
+        - !Ref RDSSecurityGroup
+      MultiAZ: false
+      PubliclyAccessible: false
+      DeletionProtection: false
+      StorageType: gp2
+      BackupRetentionPeriod: 1
+      Tags:
+        - Key: Name
+          Value: wordpress-rds
+
+Outputs:
+  DBEndpoint:
+    Description: Endpoint for WordPress database
+    Value: !GetAtt WordPressDB.Endpoint.Address
+    Export:
+      Name: WordPressDBEndpoint
+
+  DBName:
+    Description: WordPress DB name
+    Value: wordpressdb
+    Export:
+      Name: WordPressDBName
+
+  DBUsername:
+    Description: DB username
+    Value: !Ref DBUsername
+    Export:
+      Name: WordPressDBUsername

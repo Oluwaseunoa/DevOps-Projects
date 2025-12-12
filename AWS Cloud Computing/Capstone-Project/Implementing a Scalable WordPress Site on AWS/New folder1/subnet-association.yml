@@ -1,0 +1,66 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Step 2.5 - Associate subnets to the correct route tables
+
+Parameters:
+  VPCId:
+    Type: AWS::EC2::VPC::Id
+
+  PublicRouteTableId:
+    Type: String
+    Description: ID of the public route table (from networking stack output)
+
+  PrivateRouteTableId:
+    Type: String
+    Description: ID of the private route table (from networking stack output)
+
+  PublicSubnetAZ1:
+    Type: AWS::EC2::Subnet::Id
+  PublicSubnetAZ2:
+    Type: AWS::EC2::Subnet::Id
+  PrivateAppSubnetAZ1:
+    Type: AWS::EC2::Subnet::Id
+  PrivateAppSubnetAZ2:
+    Type: AWS::EC2::Subnet::Id
+  PrivateDataSubnetAZ1:
+    Type: AWS::EC2::Subnet::Id
+  PrivateDataSubnetAZ2:
+    Type: AWS::EC2::Subnet::Id
+
+Resources:
+  # Public subnets → Public route table
+  PublicSubnetAZ1Assoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetAZ1
+      RouteTableId: !Ref PublicRouteTableId
+
+  PublicSubnetAZ2Assoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PublicSubnetAZ2
+      RouteTableId: !Ref PublicRouteTableId
+
+  # Private app + data subnets → Private route table
+  PrivateAppSubnetAZ1Assoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateAppSubnetAZ1
+      RouteTableId: !Ref PrivateRouteTableId
+
+  PrivateAppSubnetAZ2Assoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateAppSubnetAZ2
+      RouteTableId: !Ref PrivateRouteTableId
+
+  PrivateDataSubnetAZ1Assoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateDataSubnetAZ1
+      RouteTableId: !Ref PrivateRouteTableId
+
+  PrivateDataSubnetAZ2Assoc:
+    Type: AWS::EC2::SubnetRouteTableAssociation
+    Properties:
+      SubnetId: !Ref PrivateDataSubnetAZ2
+      RouteTableId: !Ref PrivateRouteTableId

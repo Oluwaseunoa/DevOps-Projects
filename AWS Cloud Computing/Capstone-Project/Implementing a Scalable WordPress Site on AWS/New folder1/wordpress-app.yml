@@ -1,0 +1,151 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: WordPress App Layer - FIXED with dynamic AMI
+
+Parameters:
+  VPCId:
+    Type: AWS::EC2::VPC::Id
+  PublicSubnetAZ1:
+    Type: AWS::EC2::Subnet::Id
+  PublicSubnetAZ2:
+    Type: AWS::EC2::Subnet::Id
+  PrivateAppSubnetAZ1:
+    Type: AWS::EC2::Subnet::Id
+  PrivateAppSubnetAZ2:
+    Type: AWS::EC2::Subnet::Id
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+  LatestAmazonLinux2AMI:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: /aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2
+
+Resources:
+  # === Security Groups ===
+  ALBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP
+      VpcId: !Ref VPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+      Tags:
+        - Key: Name
+          Value: wordpress-alb-sg
+
+  EC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow from ALB
+      VpcId: !Ref VPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          SourceSecurityGroupId: !Ref ALBSecurityGroup
+      Tags:
+        - Key: Name
+          Value: wordpress-ec2-sg
+
+  # === ALB ===
+  AppLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: wordpress-alb
+      Subnets:
+        - !Ref PublicSubnetAZ1
+        - !Ref PublicSubnetAZ2
+      SecurityGroups:
+        - !Ref ALBSecurityGroup
+      Scheme: internet-facing
+      Type: application
+      Tags:
+        - Key: Name
+          Value: wordpress-alb
+
+  # === EC2 Instances (Fixed AMI) ===
+  WordPressInstance1:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmazonLinux2AMI
+      InstanceType: t3.micro
+      SubnetId: !Ref PrivateAppSubnetAZ1
+      SecurityGroupIds:
+        - !Ref EC2SecurityGroup
+      KeyName: !Ref KeyName
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          amazon-linux-extras install -y php8.0 mariadb10.5
+          yum install -y httpd wget
+          systemctl enable httpd
+          systemctl start httpd
+          cd /var/www/html
+          wget https://wordpress.org/latest.tar.gz
+          tar -xzf latest.tar.gz --strip-components=1
+          chown -R apache:apache /var/www/html
+          systemctl restart httpd
+      Tags:
+        - Key: Name
+          Value: wordpress-app-az1
+
+  WordPressInstance2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmazonLinux2AMI
+      InstanceType: t3.micro
+      SubnetId: !Ref PrivateAppSubnetAZ2
+      SecurityGroupIds:
+        - !Ref EC2SecurityGroup
+      KeyName: !Ref KeyName
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          amazon-linux-extras install -y php8.0 mariadb10.5
+          yum install -y httpd wget
+          systemctl enable httpd
+          systemctl start httpd
+          cd /var/www/html
+          wget https://wordpress.org/latest.tar.gz
+          tar -xzf latest.tar.gz --strip-components=1
+          chown -R apache:apache /var/www/html
+          systemctl restart httpd
+      Tags:
+        - Key: Name
+          Value: wordpress-app-az2
+
+  # === Target Group & Listener ===
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Port: 80
+      Protocol: HTTP
+      VpcId: !Ref VPCId
+      TargetType: instance
+      HealthCheckPath: /
+      Targets:
+        - Id: !Ref WordPressInstance1
+          Port: 80
+        - Id: !Ref WordPressInstance2
+          Port: 80
+      Tags:
+        - Key: Name
+          Value: wordpress-target-group
+
+  Listener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref AppLoadBalancer
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+
+Outputs:
+  LoadBalancerDNS:
+    Description: ALB DNS
+    Value: !GetAtt AppLoadBalancer.DNSName

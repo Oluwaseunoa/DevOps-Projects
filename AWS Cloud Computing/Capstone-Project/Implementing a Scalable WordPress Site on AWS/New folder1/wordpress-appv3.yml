@@ -1,0 +1,223 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Step 6 - WordPress App Layer with EFS + RDS integration + SSM Access
+
+Parameters:
+  VPCId:
+    Type: AWS::EC2::VPC::Id
+  PublicSubnetAZ1:
+    Type: AWS::EC2::Subnet::Id
+  PublicSubnetAZ2:
+    Type: AWS::EC2::Subnet::Id
+  PrivateAppSubnetAZ1:
+    Type: AWS::EC2::Subnet::Id
+  PrivateAppSubnetAZ2:
+    Type: AWS::EC2::Subnet::Id
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+
+  LatestAmazonLinux2AMI:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
+
+  DBEndpoint:
+    Type: String
+    Description: Import WordPressDBEndpoint from RDS stack
+
+  DBName:
+    Type: String
+    Description: Import WordPressDBName from RDS stack
+
+  DBUsername:
+    Type: String
+    Description: Import WordPressDBUsername from RDS stack
+
+  DBPassword:
+    Type: String
+    NoEcho: true
+    Description: Password used in the RDS database
+
+  EFSFileSystemId:
+    Type: String
+    Description: Import WordPressEFSFileSystemId from EFS stack
+
+Resources:
+
+  ###############################
+  # IAM ROLE + INSTANCE PROFILE #
+  ###############################
+  WordPressEC2Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+      Tags:
+        - Key: Name
+          Value: wordpress-ec2-ssm-role
+
+  WordPressEC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref WordPressEC2Role
+
+  ###############################
+  # SECURITY GROUPS #
+  ###############################
+  ALBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP
+      VpcId: !Ref VPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+  EC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow from ALB + EFS + DB
+      VpcId: !Ref VPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          SourceSecurityGroupId: !Ref ALBSecurityGroup
+        - IpProtocol: tcp
+          FromPort: 2049
+          ToPort: 2049
+          CidrIp: 10.0.0.0/16
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          CidrIp: 10.0.0.0/16
+
+  ###############################
+  # APPLICATION LOAD BALANCER #
+  ###############################
+  AppLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: wordpress-alb
+      Subnets:
+        - !Ref PublicSubnetAZ1
+        - !Ref PublicSubnetAZ2
+      SecurityGroups:
+        - !Ref ALBSecurityGroup
+      Scheme: internet-facing
+      Type: application
+
+  ###############################
+  # WORDPRESS EC2 INSTANCES #
+  ###############################
+  WordPressInstance1:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmazonLinux2AMI
+      InstanceType: t3.micro
+      SubnetId: !Ref PrivateAppSubnetAZ1
+      SecurityGroupIds:
+        - !Ref EC2SecurityGroup
+      KeyName: !Ref KeyName
+      IamInstanceProfile: !Ref WordPressEC2InstanceProfile
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          amazon-linux-extras install -y php8.0 mariadb10.5
+          yum install -y httpd wget amazon-efs-utils
+
+          mkdir -p /var/www/html
+          mount -t efs ${EFSFileSystemId}:/ /var/www/html
+          echo "${EFSFileSystemId}:/ /var/www/html efs defaults,_netdev 0 0" >> /etc/fstab
+
+          cd /var/www/html
+          if [ ! -f wp-config.php ]; then
+            wget https://wordpress.org/latest.tar.gz
+            tar -xzf latest.tar.gz --strip-components=1
+            cp wp-config-sample.php wp-config.php
+            sed -i "s/database_name_here/${DBName}/" wp-config.php
+            sed -i "s/username_here/${DBUsername}/" wp-config.php
+            sed -i "s/password_here/${DBPassword}/" wp-config.php
+            sed -i "s/localhost/${DBEndpoint}/" wp-config.php
+            chown -R apache:apache /var/www/html
+          fi
+
+          systemctl enable httpd
+          systemctl restart httpd
+
+  WordPressInstance2:
+    Type: AWS::EC2::Instance
+    Properties:
+      ImageId: !Ref LatestAmazonLinux2AMI
+      InstanceType: t3.micro
+      SubnetId: !Ref PrivateAppSubnetAZ2
+      SecurityGroupIds:
+        - !Ref EC2SecurityGroup
+      KeyName: !Ref KeyName
+      IamInstanceProfile: !Ref WordPressEC2InstanceProfile
+      UserData:
+        Fn::Base64: !Sub |
+          #!/bin/bash
+          yum update -y
+          amazon-linux-extras install -y php8.0 mariadb10.5
+          yum install -y httpd wget amazon-efs-utils
+
+          mkdir -p /var/www/html
+          mount -t efs ${EFSFileSystemId}:/ /var/www/html
+          echo "${EFSFileSystemId}:/ /var/www/html efs defaults,_netdev 0 0" >> /etc/fstab
+
+          cd /var/www/html
+          if [ ! -f wp-config.php ]; then
+            wget https://wordpress.org/latest.tar.gz
+            tar -xzf latest.tar.gz --strip-components=1
+            cp wp-config-sample.php wp-config.php
+            sed -i "s/database_name_here/${DBName}/" wp-config.php
+            sed -i "s/username_here/${DBUsername}/" wp-config.php
+            sed -i "s/password_here/${DBPassword}/" wp-config.php
+            sed -i "s/localhost/${DBEndpoint}/" wp-config.php
+            chown -R apache:apache /var/www/html
+          fi
+
+          systemctl enable httpd
+          systemctl restart httpd
+
+  ###############################
+  # TARGET GROUP & LISTENER #
+  ###############################
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Port: 80
+      Protocol: HTTP
+      VpcId: !Ref VPCId
+      TargetType: instance
+      HealthCheckPath: /
+      Targets:
+        - Id: !Ref WordPressInstance1
+          Port: 80
+        - Id: !Ref WordPressInstance2
+          Port: 80
+
+  Listener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref AppLoadBalancer
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+
+Outputs:
+  LoadBalancerDNS:
+    Description: Application Load Balancer DNS
+    Value: !GetAtt AppLoadBalancer.DNSName

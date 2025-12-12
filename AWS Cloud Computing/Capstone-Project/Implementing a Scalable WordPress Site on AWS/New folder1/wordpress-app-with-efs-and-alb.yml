@@ -1,0 +1,291 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Combined WordPress App + EFS + RDS + ALB + Auto Scaling
+
+Parameters:
+  VPCId:
+    Type: AWS::EC2::VPC::Id
+  PublicSubnetAZ1:
+    Type: AWS::EC2::Subnet::Id
+  PublicSubnetAZ2:
+    Type: AWS::EC2::Subnet::Id
+  PrivateAppSubnetAZ1:
+    Type: AWS::EC2::Subnet::Id
+  PrivateAppSubnetAZ2:
+    Type: AWS::EC2::Subnet::Id
+  KeyName:
+    Type: AWS::EC2::KeyPair::KeyName
+    Description: EC2 Key Pair for SSH access (choose from existing key pairs)
+  LatestAmazonLinux2AMI:
+    Type: AWS::SSM::Parameter::Value<AWS::EC2::Image::Id>
+    Default: "/aws/service/ami-amazon-linux-latest/amzn2-ami-hvm-x86_64-gp2"
+  DBEndpoint:
+    Type: String
+    Description: WordPress RDS endpoint
+  DBName:
+    Type: String
+    Description: WordPress database name
+  DBUsername:
+    Type: String
+    Description: WordPress database username
+  DBPassword:
+    Type: String
+    NoEcho: true
+    Description: WordPress database password
+  MinCapacity:
+    Type: Number
+    Default: 2
+  MaxCapacity:
+    Type: Number
+    Default: 4
+  DesiredCapacity:
+    Type: Number
+    Default: 2
+
+Resources:
+
+  ###############################
+  # Security Groups
+  ###############################
+
+  EC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP, NFS, MySQL
+      VpcId: !Ref VPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+        - IpProtocol: tcp
+          FromPort: 3306
+          ToPort: 3306
+          CidrIp: 10.0.0.0/16
+
+  EFSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow NFS (2049) from EC2 instances
+      VpcId: !Ref VPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 2049
+          ToPort: 2049
+          SourceSecurityGroupId: !Ref EC2SecurityGroup
+
+  ALBSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow HTTP
+      VpcId: !Ref VPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 80
+          ToPort: 80
+          CidrIp: 0.0.0.0/0
+
+  ###############################
+  # IAM Role for EC2 + SSM
+  ###############################
+
+  WordPressEC2Role:
+    Type: AWS::IAM::Role
+    Properties:
+      AssumeRolePolicyDocument:
+        Version: "2012-10-17"
+        Statement:
+          - Effect: Allow
+            Principal:
+              Service: ec2.amazonaws.com
+            Action: sts:AssumeRole
+      ManagedPolicyArns:
+        - arn:aws:iam::aws:policy/AmazonSSMManagedInstanceCore
+      Tags:
+        - Key: Name
+          Value: wordpress-ec2-ssm-role
+
+  WordPressEC2InstanceProfile:
+    Type: AWS::IAM::InstanceProfile
+    Properties:
+      Roles:
+        - !Ref WordPressEC2Role
+
+  ###############################
+  # EFS FileSystem
+  ###############################
+
+  WordPressEFS:
+    Type: AWS::EFS::FileSystem
+    Properties:
+      Encrypted: true
+      PerformanceMode: generalPurpose
+      FileSystemTags:
+        - Key: Name
+          Value: wordpress-efs
+
+  MountTargetAZ1:
+    Type: AWS::EFS::MountTarget
+    Properties:
+      FileSystemId: !Ref WordPressEFS
+      SubnetId: !Ref PrivateAppSubnetAZ1
+      SecurityGroups:
+        - !Ref EFSSecurityGroup
+
+  MountTargetAZ2:
+    Type: AWS::EFS::MountTarget
+    Properties:
+      FileSystemId: !Ref WordPressEFS
+      SubnetId: !Ref PrivateAppSubnetAZ2
+      SecurityGroups:
+        - !Ref EFSSecurityGroup
+
+  ###############################
+  # Application Load Balancer
+  ###############################
+
+  AppLoadBalancer:
+    Type: AWS::ElasticLoadBalancingV2::LoadBalancer
+    Properties:
+      Name: wordpress-alb
+      Subnets:
+        - !Ref PublicSubnetAZ1
+        - !Ref PublicSubnetAZ2
+      SecurityGroups:
+        - !Ref ALBSecurityGroup
+      Scheme: internet-facing
+      Type: application
+
+  TargetGroup:
+    Type: AWS::ElasticLoadBalancingV2::TargetGroup
+    Properties:
+      Port: 80
+      Protocol: HTTP
+      VpcId: !Ref VPCId
+      TargetType: instance
+      HealthCheckPath: /
+
+  Listener:
+    Type: AWS::ElasticLoadBalancingV2::Listener
+    Properties:
+      LoadBalancerArn: !Ref AppLoadBalancer
+      Port: 80
+      Protocol: HTTP
+      DefaultActions:
+        - Type: forward
+          TargetGroupArn: !Ref TargetGroup
+
+  ###############################
+  # Launch Template for Auto Scaling
+  ###############################
+
+  WordPressLaunchTemplate:
+    Type: AWS::EC2::LaunchTemplate
+    Properties:
+      LaunchTemplateName: wordpress-launch-template
+      LaunchTemplateData:
+        ImageId: !Ref LatestAmazonLinux2AMI
+        InstanceType: t3.micro
+        KeyName: !Ref KeyName
+        IamInstanceProfile:
+          Name: !Ref WordPressEC2InstanceProfile
+        SecurityGroupIds:
+          - !Ref EC2SecurityGroup
+        UserData:
+          Fn::Base64: !Sub |
+            #!/bin/bash
+            set -e  # Exit on any error
+            exec > >(tee /var/log/user-data.log) 2>&1
+            
+            # Update and install packages
+            yum update -y
+            amazon-linux-extras install -y php8.0 mariadb10.5
+            yum install -y httpd wget amazon-efs-utils nfs-utils
+            
+            # Create mount point
+            mkdir -p /var/www/html
+            chown apache:apache /var/www/html
+            
+            # Wait for network and EFS to be ready
+            sleep 15
+            
+            # Mount EFS with error handling
+            echo "Attempting to mount EFS: ${WordPressEFS}:/ to /var/www/html"
+            if mount -t efs -o tls ${WordPressEFS}:/ /var/www/html; then
+                echo "EFS mounted successfully"
+                
+                # Verify mount and test write
+                if touch /var/www/html/efs-test-file; then
+                    echo "EFS is writable"
+                    rm -f /var/www/html/efs-test-file
+                else
+                    echo "ERROR: EFS mount is not writable"
+                    exit 1
+                fi
+            else
+                echo "ERROR: EFS mount failed"
+                echo "Debug info:"
+                rpm -qa | grep efs-utils
+                systemctl status nfs-client.target
+                exit 1
+            fi
+            
+            # Add to fstab for persistence
+            echo "${WordPressEFS}:/ /var/www/html efs defaults,_netdev,tls 0 0" >> /etc/fstab
+            
+            # WordPress installation (only if wp-config.php doesn't exist)
+            cd /var/www/html
+            if [ ! -f wp-config.php ]; then
+                echo "Installing WordPress..."
+                wget -q https://wordpress.org/latest.tar.gz
+                tar -xzf latest.tar.gz --strip-components=1
+                rm -f latest.tar.gz
+                
+                cp wp-config-sample.php wp-config.php
+                sed -i "s/database_name_here/${DBName}/" wp-config.php
+                sed -i "s/username_here/${DBUsername}/" wp-config.php
+                sed -i "s/password_here/${DBPassword}/" wp-config.php
+                sed -i "s/localhost/${DBEndpoint}/" wp-config.php
+                
+                chown -R apache:apache /var/www/html
+                echo "WordPress installed successfully"
+            else
+                echo "WordPress already configured"
+            fi
+            
+            # Start web server
+            systemctl enable httpd
+            systemctl start httpd
+            
+            echo "UserData script completed successfully"
+
+  ###############################
+  # Auto Scaling Group
+  ###############################
+
+  WordPressAutoScalingGroup:
+    Type: AWS::AutoScaling::AutoScalingGroup
+    Properties:
+      VPCZoneIdentifier:
+        - !Ref PrivateAppSubnetAZ1
+        - !Ref PrivateAppSubnetAZ2
+      LaunchTemplate:
+        LaunchTemplateId: !Ref WordPressLaunchTemplate
+        Version: !GetAtt WordPressLaunchTemplate.LatestVersionNumber
+      MinSize: !Ref MinCapacity
+      MaxSize: !Ref MaxCapacity
+      DesiredCapacity: !Ref DesiredCapacity
+      TargetGroupARNs:
+        - !Ref TargetGroup
+      Tags:
+        - Key: Name
+          Value: wordpress-asg
+          PropagateAtLaunch: true
+
+Outputs:
+  LoadBalancerDNS:
+    Description: Application Load Balancer DNS
+    Value: !GetAtt AppLoadBalancer.DNSName
+
+  WordPressEFSFileSystemId:
+    Description: WordPress EFS Filesystem ID
+    Value: !Ref WordPressEFS

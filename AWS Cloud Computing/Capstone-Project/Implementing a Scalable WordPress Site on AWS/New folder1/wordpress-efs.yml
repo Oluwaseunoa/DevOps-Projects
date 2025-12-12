@@ -1,0 +1,66 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Step 5 - EFS Layer for shared WordPress storage
+
+Parameters:
+  VPCId:
+    Type: AWS::EC2::VPC::Id
+    Description: VPC where WordPress and EFS reside
+
+  PrivateAppSubnetAZ1:
+    Type: AWS::EC2::Subnet::Id
+    Description: Private subnet in AZ1 for WordPress EFS mount target
+
+  PrivateAppSubnetAZ2:
+    Type: AWS::EC2::Subnet::Id
+    Description: Private subnet in AZ2 for WordPress EFS mount target
+
+  EC2SecurityGroup:
+    Type: AWS::EC2::SecurityGroup::Id
+    Description: Security group of WordPress EC2 instances
+
+Resources:
+  EFSSecurityGroup:
+    Type: AWS::EC2::SecurityGroup
+    Properties:
+      GroupDescription: Allow NFS (2049) from WordPress EC2 instances
+      VpcId: !Ref VPCId
+      SecurityGroupIngress:
+        - IpProtocol: tcp
+          FromPort: 2049
+          ToPort: 2049
+          SourceSecurityGroupId: !Ref EC2SecurityGroup
+      Tags:
+        - Key: Name
+          Value: wordpress-efs-sg
+
+  WordPressEFS:
+    Type: AWS::EFS::FileSystem
+    Properties:
+      Encrypted: true
+      PerformanceMode: generalPurpose
+      FileSystemTags:
+        - Key: Name
+          Value: wordpress-efs
+
+  MountTargetAZ1:
+    Type: AWS::EFS::MountTarget
+    Properties:
+      FileSystemId: !Ref WordPressEFS
+      SubnetId: !Ref PrivateAppSubnetAZ1
+      SecurityGroups:
+        - !Ref EFSSecurityGroup
+
+  MountTargetAZ2:
+    Type: AWS::EFS::MountTarget
+    Properties:
+      FileSystemId: !Ref WordPressEFS
+      SubnetId: !Ref PrivateAppSubnetAZ2
+      SecurityGroups:
+        - !Ref EFSSecurityGroup
+
+Outputs:
+  WordPressEFSFileSystemId:
+    Description: WordPress EFS Filesystem ID
+    Value: !Ref WordPressEFS
+    Export:
+      Name: WordPressEFSFileSystemId

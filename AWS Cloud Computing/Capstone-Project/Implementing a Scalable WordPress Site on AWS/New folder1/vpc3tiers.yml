@@ -1,0 +1,110 @@
+AWSTemplateFormatVersion: "2010-09-09"
+Description: Step 1 - Create VPC and subnets for 3-tier WordPress architecture.
+
+Parameters:
+  EnvironmentName:
+    Type: String
+    Default: wordpress
+
+Resources:
+  # =========================
+  # VPC
+  # =========================
+  MyVPC:
+    Type: AWS::EC2::VPC
+    Properties:
+      CidrBlock: 10.0.0.0/16
+      EnableDnsSupport: true
+      EnableDnsHostnames: true
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-vpc"
+
+  # =========================
+  # Public Subnets
+  # =========================
+  PublicSubnetAZ1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.0.0/24
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-public-az1"
+
+  PublicSubnetAZ2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.1.0/24
+      AvailabilityZone: !Select [1, !GetAZs ""]
+      MapPublicIpOnLaunch: true
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-public-az2"
+
+  # =========================
+  # Private App Subnets
+  # =========================
+  PrivateAppSubnetAZ1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.2.0/24
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-private-app-az1"
+
+  PrivateAppSubnetAZ2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.3.0/24
+      AvailabilityZone: !Select [1, !GetAZs ""]
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-private-app-az2"
+
+  # =========================
+  # Private Data Subnets
+  # =========================
+  PrivateDataSubnetAZ1:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.4.0/24
+      AvailabilityZone: !Select [0, !GetAZs ""]
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-private-data-az1"
+
+  PrivateDataSubnetAZ2:
+    Type: AWS::EC2::Subnet
+    Properties:
+      VpcId: !Ref MyVPC
+      CidrBlock: 10.0.5.0/24
+      AvailabilityZone: !Select [1, !GetAZs ""]
+      Tags:
+        - Key: Name
+          Value: !Sub "${EnvironmentName}-private-data-az2"
+
+Outputs:
+  VPCId:
+    Description: ID of the created VPC
+    Value: !Ref MyVPC
+
+  PublicSubnetAZ1Id:
+    Value: !Ref PublicSubnetAZ1
+  PublicSubnetAZ2Id:
+    Value: !Ref PublicSubnetAZ2
+  PrivateAppSubnetAZ1Id:
+    Value: !Ref PrivateAppSubnetAZ1
+  PrivateAppSubnetAZ2Id:
+    Value: !Ref PrivateAppSubnetAZ2
+  PrivateDataSubnetAZ1Id:
+    Value: !Ref PrivateDataSubnetAZ1
+  PrivateDataSubnetAZ2Id:
+    Value: !Ref PrivateDataSubnetAZ2
