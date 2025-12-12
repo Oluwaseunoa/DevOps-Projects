@@ -1,4 +1,9 @@
-# WordPress High Availability Deployment on AWS
+# WordPress High Availability Deployment on AWS using CloudFormation
+
+**Author:** Oluwaseun Osunsola  
+**Environment & Tools:** AWS, CloudFormation, VSCode, HyperTerminal   
+**Project link:**   
+https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/AWS%20Cloud%20Computing/Capstone-Project/Implementing%20a%20Scalable%20WordPress%20Site%20on%20AWS
 
 ## Project Overview
 
