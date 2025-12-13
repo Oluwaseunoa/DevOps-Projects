@@ -1,8 +1,8 @@
 # Dockerization of NodeJS Application
 
 **Author:** Oluwaseun Osunsola  
-**Environment & Tools:** Windows, Docker Desktop, VSCode  
-**Project Link:** https://github.com/Oluwaseunoa/DevOps-Projects/tree/main 
+**Environment & Tools:** Windows, Docker Desktop, VSCode    
+**Project Link:** https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/Docker-Projects/Dockerization%20of%20NodeJS%20Application%20-%20v0.1   
 
 ## 📌 Project Overview
 
