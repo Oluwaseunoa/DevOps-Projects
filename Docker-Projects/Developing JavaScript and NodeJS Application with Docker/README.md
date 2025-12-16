@@ -1,7 +1,11 @@
 # JavaScript and Node.js Application with Docker
 
+**Author:** Oluwaseun Osunsola    
+**Environment & Tools:** AWS ECR, Windows, Docker Desktop, Docker Compose, VSCode      
+**Project Link:** https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/Docker-Projects  
+ 
 ## 📌 Project Overview
-
+![What is Docker](./What-is-Docker.png)
 This project demonstrates how to **containerize a JavaScript (Node.js) application using Docker**, run it alongside **MongoDB** using **Docker Compose**, persist data using **Docker volumes**, and deploy the built image to a **private Docker registry on AWS (Amazon ECR)**.
 
 The application is a simple Node.js + Express web app that stores and retrieves user profile data from MongoDB and serves static content.
