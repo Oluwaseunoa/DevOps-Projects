@@ -118,7 +118,7 @@ Add website content to the HTML file and save.
 Build the Docker image and tag it as `dockerfile`.
 
 📸 Screenshot:
-![Docker Build](./img/9.build_the_image_and_tag_it_as_dockerfile(docker_build_-t_dockerfile..png)
+![Docker Build](./img/9.build_the_image_and_tag_it_as_dockerfile(docker_build_-t_dockerfile.).png)
 
 ---
 
@@ -199,7 +199,7 @@ Stop the container and list all containers.
 Restart container using its container ID.
 
 📸 Screenshot:
-![Start Container](./img/18.start_container_with_its_ID(a63543d3367e ).png)
+![Start Container](./img/18.start_container_with_its_ID(a63543d3367e%20).png)
 
 ---
 
