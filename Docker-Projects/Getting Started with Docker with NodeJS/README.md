@@ -3,7 +3,7 @@
   
 **Author:** Oluwaseun Osunsola 
 
-**Project Overview** 
+**Project Overview**   
 This comprehensive guide walks you through installing Docker on an AWS EC2 Ubuntu instance, mastering fundamental Docker commands, building a custom Docker image for a Node.js application, and orchestrating a multi-container setup using Docker Compose. The application is a full-stack user profile editor built with Express.js, connected to MongoDB for persistent storage, and includes Mongo Express as a web-based admin interface.
 
 By the end of this tutorial, you will have:
