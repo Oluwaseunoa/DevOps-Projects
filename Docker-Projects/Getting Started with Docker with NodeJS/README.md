@@ -1,7 +1,10 @@
 # Getting Started with Docker and Node.js: A Comprehensive Hands-On Project
 
   
-**Author:** Oluwaseun Osunsola 
+**Author:** Oluwaseun Osunsola  
+**LinkedIn:** https://www.linkedin.com/in/oluwaseun-osunsola-95539b175/      
+**Environment & Tool:** AWS, Docker, Docker Compose, Dockerfile   
+**Project Link:** https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/Docker-Projects  
 
 **Project Overview**   
 This comprehensive guide walks you through installing Docker on an AWS EC2 Ubuntu instance, mastering fundamental Docker commands, building a custom Docker image for a Node.js application, and orchestrating a multi-container setup using Docker Compose. The application is a full-stack user profile editor built with Express.js, connected to MongoDB for persistent storage, and includes Mongo Express as a web-based admin interface.
