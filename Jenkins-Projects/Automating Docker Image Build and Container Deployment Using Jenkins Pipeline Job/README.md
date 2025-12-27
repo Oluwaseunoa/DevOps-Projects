@@ -1,7 +1,9 @@
-
-
 # Automating Docker Image Build and Container Deployment Using Jenkins Pipeline Job
 
+**Author:** Oluwaseun Osunsola  
+**LinkedIn:** https://www.linkedin.com/in/oluwaseun-osunsola-95539b175/  
+**Project Repository:** https://github.com/Oluwaseunoa/DevOps-Projects/tree/main/Jenkins-Projects  
+**Environment & Tools:** AWS EC2 (Ubuntu 22.04 LTS), Jenkins 2.462.x (LTS), GitHub
 ## Project Overview
 
 This project demonstrates how to automate Docker image building and container deployment using a **Jenkins Declarative Pipeline Job**. The workflow integrates **GitHub webhooks** to enable **continuous integration**, ensuring that every code push automatically triggers a Jenkins pipeline that builds a Docker image and deploys a container.
@@ -310,5 +312,10 @@ http://<server-ip>:8081
 * GitHub webhook integration
 * Automating Docker builds with Jenkins
 * Implementing Continuous Integration (CI)
+
+## 👤 Author
+
+**Oluwaseun**
+DevOps / Cloud Engineering Project
 
 
